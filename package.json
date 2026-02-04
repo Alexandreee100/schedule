@@ -5,7 +5,8 @@
   "private": true,
   "scripts": {
     "prepare": "git config core.hooksPath .git-hooks || echo \"There is not a git repo\"",
-    "precommit": "lint-staged"
+    "precommit": "lint-staged",
+    "prepush": ""
   },
   "dependencies": {
     "mobx": "6.13.7",
