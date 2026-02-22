@@ -9,13 +9,13 @@ importers:
   .:
     dependencies:
       class-variance-authority:
-        specifier: ^0.7.1
+        specifier: 0.7.1
         version: 0.7.1
       clsx:
-        specifier: ^2.1.1
+        specifier: 2.1.1
         version: 2.1.1
       lucide-react:
-        specifier: ^0.575.0
+        specifier: 0.575.0
         version: 0.575.0(react@19.2.4)
       mobx:
         specifier: 6.13.7
@@ -24,7 +24,7 @@ importers:
         specifier: 4.1.0
         version: 4.1.0(mobx@6.13.7)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
       radix-ui:
-        specifier: ^1.4.3
+        specifier: 1.4.3
         version: 1.4.3(@types/react-dom@19.2.3(@types/react@19.2.10))(@types/react@19.2.10)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
       react:
         specifier: 19.2.4
@@ -33,7 +33,7 @@ importers:
         specifier: 19.2.4
         version: 19.2.4(react@19.2.4)
       tailwind-merge:
-        specifier: ^3.5.0
+        specifier: 3.5.0
         version: 3.5.0
       tailwindcss:
         specifier: 4.2.0
