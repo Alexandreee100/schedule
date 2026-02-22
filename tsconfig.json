@@ -8,7 +8,6 @@
     "strict": true,
     "module": "ESNext",
     "moduleResolution": "Bundler",
-    "paths": {},
     "resolveJsonModule": true,
     "declaration": false,
     "noEmit": true,
@@ -16,16 +15,14 @@
     "verbatimModuleSyntax": true,
     "experimentalDecorators": true,
     "jsx": "react-jsx",
-    "lib": [
-      "ES2024",
-      "DOM",
-      "DOM.Iterable"
-    ],
+    "lib": ["ES2024", "DOM", "DOM.Iterable"],
     "target": "ES2024",
     "useDefineForClassFields": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"]
+    }
   },
-  "include": [
-    "src"
-  ]
+  "include": ["src"]
 }
