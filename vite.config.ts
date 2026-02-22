@@ -1,16 +1,14 @@
 /// <reference types="vitest/config" />
 
-import importMetaEnv from "@import-meta-env/unplugin";
 import react from "@vitejs/plugin-react";
 import dns from "dns";
 import { defineConfig, loadEnv, type PluginOption } from "vite";
 import checker from "vite-plugin-checker";
 import svgr from "vite-plugin-svgr";
 import tsconfigPaths from "vite-tsconfig-paths";
+import tailwindcss from "@tailwindcss/vite";
 
 dns.setDefaultResultOrder("verbatim");
-
-const DEV_SERVER_PORT = 51268;
 
 export default defineConfig(({ mode }) => {
     const envs = loadEnv(mode, process.cwd(), "");
@@ -18,7 +16,7 @@ export default defineConfig(({ mode }) => {
     const isDevMode = mode === "development";
 
     const plugins: PluginOption[] = [
-        importMetaEnv.vite({ example: ".env.example", env: ".env" }),
+        tailwindcss(),
         react({
             babel: {
                 assumptions: {
@@ -84,12 +82,6 @@ export default defineConfig(({ mode }) => {
         },
         test: {
             environment: "happy-dom",
-        },
-        server: {
-            port: DEV_SERVER_PORT,
-        },
-        preview: {
-            port: DEV_SERVER_PORT,
         },
     };
 });

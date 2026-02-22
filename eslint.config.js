@@ -19,14 +19,16 @@ export default defineConfig([
             ts.configs.recommended,
             react.configs.flat.recommended,
             react.configs.flat["jsx-runtime"],
-            reactHooks.configs["recommended-latest"],
+
             mobx.flatConfigs.recommended,
             prettier,
         ],
         plugins: {
-            react: react,
+            "react": react,
+            "react-hooks": reactHooks,
         },
         rules: {
+            ...reactHooks.configs.recommended.rules,
             "no-prototype-builtins": "off",
             "no-empty": ["error", { allowEmptyCatch: true }],
             "no-debugger": "error",
