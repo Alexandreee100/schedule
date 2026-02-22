@@ -1,5 +1,5 @@
 import { type ForwardedRef, type RefCallback, useMemo } from "react";
-import { isDefined } from "src/asserts";
+import { isDefined } from "src/shared/asserts";
 
 export type ReactRef<T> = ForwardedRef<T> | undefined;
 

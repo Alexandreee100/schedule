@@ -9,11 +9,11 @@
     "noEmit": true,
     "jsx": "react-jsx",
     "lib": ["ES2024", "DOM", "DOM.Iterable"],
-    "baseUrl": ".",
+    "baseUrl": "src",
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./*"],
     },
     "tsBuildInfoFile": "./node_modules/.tmp/tsbuildinfo.app.tsbuildinfo"
   },
-  "include": ["src"]
+  "include": ["./src"]
 }

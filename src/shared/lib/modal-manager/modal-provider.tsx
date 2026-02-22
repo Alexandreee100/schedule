@@ -3,7 +3,7 @@ import { observer } from "mobx-react-lite";
 
 import { ModalRenderer } from "src/shared/lib/modal-manager/modal-renderer";
 import type { ModalContextValue } from "src/shared/lib/modal-manager/types";
-import { useService } from "src/di/hooks/use-service";
+import { useService } from "src/core/di/hooks/use-service";
 import { ModalManager } from "src/shared/lib/modal-manager/modal-manager";
 
 const ModalContext = createContext<ModalContextValue<unknown> | null>(null);

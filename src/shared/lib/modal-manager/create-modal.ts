@@ -5,7 +5,7 @@ import { ModalController } from "src/shared/lib/modal-manager/modal-controller";
 import type { ModalState } from "src/shared/lib/modal-manager/types";
 import { getPromiseContainer, wrapModal } from "src/shared/lib/modal-manager/utils";
 import { ModalManager } from "src/shared/lib/modal-manager/modal-manager";
-import { assertAndReturn } from "src/asserts";
+import { assertAndReturn } from "src/shared/asserts";
 
 export const createModal = <Props extends {} = {}, Return = unknown>(
     Component: (props: Props) => ReactElement | null,
