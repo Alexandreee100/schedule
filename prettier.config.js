@@ -22,6 +22,7 @@ const config = {
             files: ["*.json", "*.yml", "*.md"],
             options: {
                 tabWidth: 2,
+                printWidth: 80,
             },
         },
     ],

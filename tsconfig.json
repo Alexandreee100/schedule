@@ -1,28 +1,7 @@
 {
-  "compilerOptions": {
-    "allowUnreachableCode": false,
-    "allowUnusedLabels": false,
-    "noFallthroughCasesInSwitch": true,
-    "noImplicitOverride": true,
-    "noUncheckedIndexedAccess": true,
-    "strict": true,
-    "module": "ESNext",
-    "moduleResolution": "Bundler",
-    "resolveJsonModule": true,
-    "declaration": false,
-    "noEmit": true,
-    "esModuleInterop": true,
-    "verbatimModuleSyntax": true,
-    "experimentalDecorators": true,
-    "jsx": "react-jsx",
-    "lib": ["ES2024", "DOM", "DOM.Iterable"],
-    "target": "ES2024",
-    "useDefineForClassFields": true,
-    "skipLibCheck": true,
-    "baseUrl": ".",
-    "paths": {
-      "@/*": ["./src/*"]
-    }
-  },
-  "include": ["src"]
+  "files": [],
+  "references": [
+    { "path": "./tsconfig.app.json" },
+    { "path": "./tsconfig.node.json" }
+  ]
 }

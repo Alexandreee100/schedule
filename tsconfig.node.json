@@ -1,0 +1,14 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "composite": true,
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "target": "ES2024",
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "lib": ["ES2024"],
+    "tsBuildInfoFile": "./node_modules/.tmp/tsbuildinfo.node.tsbuildinfo"
+  },
+  "include": ["vite.config.ts"]
+}
