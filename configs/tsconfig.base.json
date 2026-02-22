@@ -9,7 +9,7 @@
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "verbatimModuleSyntax": true,
-    "useDefineForClassFields": true,
+    "useDefineForClassFields": false,
     "skipLibCheck": true
   }
 }

@@ -19,16 +19,14 @@ export default defineConfig([
             ts.configs.recommended,
             react.configs.flat.recommended,
             react.configs.flat["jsx-runtime"],
-
+            reactHooks.configs.flat.recommended,
             mobx.flatConfigs.recommended,
             prettier,
         ],
         plugins: {
-            "react": react,
-            "react-hooks": reactHooks,
+            react: react,
         },
         rules: {
-            ...reactHooks.configs.recommended.rules,
             "no-prototype-builtins": "off",
             "no-empty": ["error", { allowEmptyCatch: true }],
             "no-debugger": "error",
@@ -45,6 +43,8 @@ export default defineConfig([
             "react/jsx-fragments": ["warn", "element"],
             "react/display-name": "warn",
             "react/prop-types": "off",
+
+            "react-hooks/refs": "warn",
 
             "@typescript-eslint/await-thenable": "off",
             "@typescript-eslint/ban-ts-comment": "off",

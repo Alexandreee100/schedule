@@ -1,12 +1,12 @@
 /// <reference types="vitest/config" />
 
+import babel from "vite-plugin-babel";
 import react from "@vitejs/plugin-react";
 import dns from "dns";
 import { defineConfig, loadEnv, type PluginOption } from "vite";
 import checker from "vite-plugin-checker";
 import svgr from "vite-plugin-svgr";
 import tsconfigPaths from "vite-tsconfig-paths";
-import tailwindcss from "@tailwindcss/vite";
 
 dns.setDefaultResultOrder("verbatim");
 
@@ -16,9 +16,8 @@ export default defineConfig(({ mode }) => {
     const isDevMode = mode === "development";
 
     const plugins: PluginOption[] = [
-        tailwindcss(),
-        react({
-            babel: {
+        babel({
+            babelConfig: {
                 assumptions: {
                     setPublicClassFields: true,
                 },
@@ -39,6 +38,7 @@ export default defineConfig(({ mode }) => {
                 ],
             },
         }),
+        react(),
         svgr({
             svgrOptions: {
                 ref: true,

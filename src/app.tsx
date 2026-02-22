@@ -1,3 +1,9 @@
+import { Theme } from "@radix-ui/themes";
+
 export const App = () => {
-    return <div>Hello World</div>;
+    return (
+        <Theme>
+            <div>Hello World</div>
+        </Theme>
+    );
 };

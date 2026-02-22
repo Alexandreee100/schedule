@@ -5,8 +5,7 @@
     "module": "ESNext",
     "moduleResolution": "Bundler",
     "target": "ES2024",
-    "declaration": true,
-    "emitDeclarationOnly": true,
+    "noEmit": true,
     "lib": ["ES2024"],
     "tsBuildInfoFile": "./node_modules/.tmp/tsbuildinfo.node.tsbuildinfo"
   },

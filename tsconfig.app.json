@@ -5,14 +5,13 @@
     "module": "ESNext",
     "moduleResolution": "Bundler",
     "target": "ES2024",
-    "declaration": true,
-    "emitDeclarationOnly": true,
     "experimentalDecorators": true,
+    "noEmit": true,
     "jsx": "react-jsx",
     "lib": ["ES2024", "DOM", "DOM.Iterable"],
-    "baseUrl": "src",
+    "baseUrl": ".",
     "paths": {
-      "@/*": ["./*"]
+      "@/*": ["./src/*"]
     },
     "tsBuildInfoFile": "./node_modules/.tmp/tsbuildinfo.app.tsbuildinfo"
   },
