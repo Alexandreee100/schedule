@@ -2,13 +2,10 @@
 
 import babel from "vite-plugin-babel";
 import react from "@vitejs/plugin-react";
-import dns from "dns";
 import { defineConfig, loadEnv, type PluginOption } from "vite";
 import checker from "vite-plugin-checker";
 import svgr from "vite-plugin-svgr";
 import tsconfigPaths from "vite-tsconfig-paths";
-
-dns.setDefaultResultOrder("verbatim");
 
 export default defineConfig(({ mode }) => {
     const envs = loadEnv(mode, process.cwd(), "");
@@ -28,11 +25,19 @@ export default defineConfig(({ mode }) => {
                      */
                     [
                         "@babel/preset-typescript",
-                        { isTSX: true, onlyRemoveTypeImports: true, optimizeConstEnums: true, allExtensions: true },
+                        {
+                            isTSX: true,
+                            onlyRemoveTypeImports: true,
+                            optimizeConstEnums: true,
+                            allExtensions: true,
+                        },
                     ],
                 ],
                 plugins: [
-                    ["@babel/plugin-proposal-decorators", { version: "legacy" }],
+                    [
+                        "@babel/plugin-proposal-decorators",
+                        { version: "legacy" },
+                    ],
                     "@babel/plugin-transform-class-properties",
                     "@babel/plugin-transform-class-static-block",
                 ],
@@ -82,6 +87,9 @@ export default defineConfig(({ mode }) => {
         },
         test: {
             environment: "happy-dom",
+        },
+        server: {
+            host: true,
         },
     };
 });
