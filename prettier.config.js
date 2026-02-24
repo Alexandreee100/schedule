@@ -15,7 +15,7 @@ const config = {
                 semi: true,
                 trailingComma: "es5",
                 singleQuote: false,
-                bracketSameLine: true,
+                bracketSameLine: false,
             },
         },
         {

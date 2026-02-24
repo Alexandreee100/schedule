@@ -1,5 +1,7 @@
 import { Flex, Grid } from "@radix-ui/themes";
 import type { ReactNode } from "react";
+import styles from "./table-view.module.css";
+import { clsx } from "clsx";
 
 export interface ITableViewHeaderCell {
     id: string;
@@ -23,34 +25,57 @@ export interface ITableViewRow {
     cells: ITableViewCell[];
 }
 
-export interface ITableViewProps {
-    columns: string;
-    headerGroups: ITableViewHeaderGroup[];
-    rows: ITableViewRow[];
+export type ITableViewColumnSize = number | string;
+
+export interface ITableViewColumn {
+    id: string;
+    size: ITableViewColumnSize;
 }
 
-const getSpanStyle = (colSpan: number) => {
-    return { gridColumn: `span ${colSpan}` } as const;
+export interface ITableViewProps {
+    columns: ITableViewColumn[];
+    headerGroups: ITableViewHeaderGroup[];
+    rows: ITableViewRow[];
+    className?: string;
+}
+
+const getColumnSize = (size: ITableViewColumnSize) => {
+    if (typeof size === "number") {
+        return `${size}px`;
+    }
+
+    return size;
 };
 
-const TableView = ({ columns, headerGroups, rows }: ITableViewProps) => {
+const TableView = ({
+    columns,
+    headerGroups,
+    rows,
+    className,
+}: ITableViewProps) => {
+    const gridColumns = columns
+        .map((column) => getColumnSize(column.size))
+        .join(" ");
+
     return (
-        <Grid>
+        <Grid className={clsx(styles.table, className)}>
             {headerGroups.map((headerGroup) => (
-                <Grid key={headerGroup.id} columns={columns}>
+                <Grid
+                    key={headerGroup.id}
+                    columns={gridColumns}
+                    className={styles.row}
+                >
                     {headerGroup.cells.map((cell) => (
-                        <Flex key={cell.id} style={getSpanStyle(cell.colSpan)}>
+                        <Flex key={cell.id} gridColumn={`span ${cell.colSpan}`}>
                             {cell.content}
                         </Flex>
                     ))}
                 </Grid>
             ))}
             {rows.map((row) => (
-                <Grid key={row.id} columns={columns}>
+                <Grid key={row.id} columns={gridColumns} className={styles.row}>
                     {row.cells.map((cell) => (
-                        <Flex key={cell.id} style={getSpanStyle(cell.colSpan)}>
-                            {cell.content}
-                        </Flex>
+                        <Flex key={cell.id}>{cell.content}</Flex>
                     ))}
                 </Grid>
             ))}

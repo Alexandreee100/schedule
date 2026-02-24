@@ -1,0 +1,10 @@
+.table {
+    --border-width: 1px;
+    --border-color: var(--accent-1);
+    gap: var(--border-width);
+}
+
+.row {
+    gap: var(--border-width);
+    background-color: var(--border-color);
+}

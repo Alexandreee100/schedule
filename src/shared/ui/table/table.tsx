@@ -1,5 +1,5 @@
 import { Box, Flex, Grid } from "@radix-ui/themes";
-import { type CSSProperties, type ReactNode, useMemo } from "react";
+import { type CSSProperties, useMemo } from "react";
 import { flexRender, useReactTable } from "@tanstack/react-table";
 
 interface ITable {
