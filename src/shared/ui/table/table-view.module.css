@@ -1,10 +1,23 @@
 .table {
     --border-width: 1px;
-    --border-color: var(--accent-1);
+    --border-color: var(--accent-a12);
+    --cell-background: var(--color-panel);
+    --header-background: var(--color-surface, var(--cell-background));
+
     gap: var(--border-width);
+    background-color: var(--border-color);
+    padding: var(--border-width);
 }
 
 .row {
     gap: var(--border-width);
     background-color: var(--border-color);
+}
+
+.cell {
+    background-color: var(--cell-background);
+}
+
+.headerCell {
+    background-color: var(--header-background);
 }
