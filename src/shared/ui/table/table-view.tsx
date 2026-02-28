@@ -1,51 +1,25 @@
 import { Flex, Grid } from "@radix-ui/themes";
-import { type ReactNode } from "react";
+import { type ReactNode, useMemo } from "react";
 import styles from "./table-view.module.css";
 import { clsx } from "clsx";
 import type { SetRequired } from "type-fest";
 import { assertAndReturn } from "../../asserts";
 import {
     type ColumnDef,
+    flexRender,
     getCoreRowModel,
     type RowData,
     useReactTable,
+    type Table,
 } from "@tanstack/react-table";
-
-export interface ITableViewHeaderCell {
-    id: string;
-    colSpan: number;
-    content: ReactNode;
-}
 
 export interface ITableViewColumn {
     id: string;
     size: number;
     minSize: number;
     maxSize: number;
-    grow?: number;
+    grow: number;
 }
-
-const getColumnSize = (size: number) => {
-    return `${size}px`;
-};
-
-const getGridColumns = (columns: ITableColumn[]) => {
-    return columns
-        .map((column) => {
-            return getColumnSize(column.size);
-        })
-        .join(" ");
-};
-
-const isGrowableColumn = (column: ITableViewColumn): column is GrowableColumn =>
-    column.grow !== undefined && column.grow > 0;
-
-interface ITableColumn {
-    id: string;
-    size: number;
-}
-
-type GrowableColumn = SetRequired<ITableViewColumn, "grow">;
 
 const getDistributedColumnSizes = (
     columns: ITableViewColumn[],
@@ -60,7 +34,7 @@ const getDistributedColumnSizes = (
     let growableMinWidth = 0;
 
     for (const column of columns) {
-        if (isGrowableColumn(column)) {
+        if (column.grow > 0) {
             growableMinWidth += column.minSize;
             growableColumns.push(column);
         } else {
@@ -209,10 +183,117 @@ interface ITableProps<TData extends RowData> {
     data: TData[];
 }
 
+const useGridTableAdapter = <TData extends RowData>(table: Table<TData>) => {
+    const rowModel = table.getRowModel();
+
+    const headerGroups = table.getHeaderGroups();
+    const tableRows = rowModel.rows;
+    const leafColumns = table.getAllLeafColumns();
+
+    const headerRows: IRowGridTable[] = useMemo(
+        () =>
+            headerGroups.map((group) => {
+                const cells = group.headers.map((header): ICellGridTable => {
+                    return {
+                        id: header.id,
+                        colSpan: header.colSpan,
+                        content: flexRender(
+                            header.column.columnDef.header,
+                            header.getContext()
+                        ),
+                    };
+                });
+
+                return {
+                    id: group.id,
+                    cells,
+                };
+            }),
+        [headerGroups]
+    );
+
+    const rows: IRowGridTable[] = useMemo(
+        () =>
+            tableRows.map((row) => {
+                const cells = row
+                    .getVisibleCells()
+                    .map((cell): ICellGridTable => {
+                        return {
+                            id: cell.id,
+                            content: flexRender(
+                                cell.column.columnDef.cell,
+                                cell.getContext()
+                            ),
+                        };
+                    });
+
+                return {
+                    id: row.id,
+                    cells,
+                };
+            }),
+        [tableRows]
+    );
+
+    const distributedSizes = useMemo(() => {
+        const columns = leafColumns.map((column) => {
+            const size = column.columnDef.size ?? 0;
+            const minSize = column.columnDef.minSize ?? 0;
+            const maxSize = column.columnDef.maxSize ?? Number.MAX_SAFE_INTEGER;
+            const grow = column.columnDef.meta?.grow ?? 0;
+
+            return {
+                id: column.id,
+                size,
+                minSize,
+                maxSize,
+                grow,
+            };
+        });
+
+        const distributedSizes = getDistributedColumnSizes(
+            columns,
+            table.getTotalSize()
+        );
+
+        return distributedSizes;
+    }, [leafColumns, table]);
+
+    const gridTemplateColumns = useMemo(() => {
+        return leafColumns
+            .flatMap((column) => {
+                const size = distributedSizes.get(column.id);
+
+                if (size) {
+                    return `${size}px`;
+                }
+
+                return [];
+            })
+            .join(" ");
+    }, [distributedSizes, leafColumns]);
+
+    return {
+        headerRows,
+        rows,
+        gridTemplateColumns,
+    };
+};
+
 const Table = <TData extends RowData>(props: ITableProps<TData>) => {
     const table = useReactTable({
         columns: props.columns,
         data: props.data,
         getCoreRowModel: getCoreRowModel(),
     });
+
+    const adapter = useGridTableAdapter(table);
+
+    return (
+        <GridTable
+            gridTemplateColumns={adapter.gridTemplateColumns}
+            headerRows={adapter.headerRows}
+            rows={adapter.rows}
+        />
+    );
 };

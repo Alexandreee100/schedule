@@ -8,7 +8,7 @@ declare module "react" {
 
 declare module "@tanstack/react-table" {
     interface ColumnMeta<TData extends RowData, TValue> {
-        grow?: 0 | 1;
+        grow?: number;
     }
 }
 
