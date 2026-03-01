@@ -1,5 +1,14 @@
 import { Flex, Grid } from "@radix-ui/themes";
-import { type ReactNode, useMemo } from "react";
+import {
+    type ReactNode,
+    type Ref,
+    type RefCallback,
+    useLayoutEffect,
+    useMemo,
+    useRef,
+    useState,
+    forwardRef,
+} from "react";
 import styles from "./table-view.module.css";
 import { clsx } from "clsx";
 import type { SetRequired } from "type-fest";
@@ -9,8 +18,8 @@ import {
     flexRender,
     getCoreRowModel,
     type RowData,
-    useReactTable,
     type Table,
+    useReactTable,
 } from "@tanstack/react-table";
 
 export interface ITableViewColumn {
@@ -123,72 +132,79 @@ export interface IGridTableProps {
     headerRows: IRowGridTable[];
     rows: IRowGridTable[];
     className?: string;
+    ref?: Ref<HTMLDivElement>;
 }
 
-const GridTable = ({
-    gridTemplateColumns,
-    rows,
-    headerRows,
-    className,
-}: IGridTableProps) => {
-    return (
-        <Grid className={clsx(styles.table, className)}>
-            {headerRows.map((headerRow) => (
-                <Grid
-                    key={headerRow.id}
-                    columns={gridTemplateColumns}
-                    className={styles.row}
-                >
-                    {headerRow.cells.map((cell) => {
-                        const gridColumn = cell.colSpan
-                            ? `span ${cell.colSpan}`
-                            : undefined;
+const GridTable = forwardRef<HTMLDivElement, IGridTableProps>(
+    function GridTable(
+        { gridTemplateColumns, rows, headerRows, className },
+        ref
+    ) {
+        return (
+            <Grid className={clsx(styles.table, className)} ref={ref}>
+                {headerRows.map((headerRow) => (
+                    <Grid
+                        key={headerRow.id}
+                        columns={gridTemplateColumns}
+                        className={styles.row}
+                    >
+                        {headerRow.cells.map((cell) => {
+                            const gridColumn = cell.colSpan
+                                ? `span ${cell.colSpan}`
+                                : undefined;
 
-                        return (
+                            return (
+                                <Flex
+                                    key={cell.id}
+                                    className={clsx(
+                                        styles.cell,
+                                        styles.headerCell
+                                    )}
+                                    gridColumn={gridColumn}
+                                    align="center"
+                                >
+                                    {cell.content}
+                                </Flex>
+                            );
+                        })}
+                    </Grid>
+                ))}
+                {rows.map((row) => (
+                    <Grid
+                        key={row.id}
+                        columns={gridTemplateColumns}
+                        className={styles.row}
+                    >
+                        {row.cells.map((cell) => (
                             <Flex
                                 key={cell.id}
-                                className={clsx(styles.cell, styles.headerCell)}
-                                gridColumn={gridColumn}
+                                className={styles.cell}
                                 align="center"
                             >
                                 {cell.content}
                             </Flex>
-                        );
-                    })}
-                </Grid>
-            ))}
-            {rows.map((row) => (
-                <Grid
-                    key={row.id}
-                    columns={gridTemplateColumns}
-                    className={styles.row}
-                >
-                    {row.cells.map((cell) => (
-                        <Flex
-                            key={cell.id}
-                            className={styles.cell}
-                            align="center"
-                        >
-                            {cell.content}
-                        </Flex>
-                    ))}
-                </Grid>
-            ))}
-        </Grid>
-    );
-};
+                        ))}
+                    </Grid>
+                ))}
+            </Grid>
+        );
+    }
+);
 
 interface ITableProps<TData extends RowData> {
     columns: ColumnDef<TData>[];
     data: TData[];
 }
 
-const useGridTableAdapter = <TData extends RowData>(table: Table<TData>) => {
+const useGridTableAdapter = <TData extends RowData>(
+    table: Table<TData>,
+    totalWidth: number | undefined
+) => {
     const rowModel = table.getRowModel();
 
     const headerGroups = table.getHeaderGroups();
     const tableRows = rowModel.rows;
-    const leafColumns = table.getAllLeafColumns();
+    const allColumns = table.getAllLeafColumns();
 
     const headerRows: IRowGridTable[] = useMemo(
         () =>
@@ -236,7 +252,11 @@ const useGridTableAdapter = <TData extends RowData>(table: Table<TData>) => {
     );
 
     const distributedSizes = useMemo(() => {
-        const columns = leafColumns.map((column) => {
+        if (totalWidth === undefined) {
+            return undefined;
+        }
+
+        const columns = allColumns.map((column) => {
             const size = column.columnDef.size ?? 0;
             const minSize = column.columnDef.minSize ?? 0;
             const maxSize = column.columnDef.maxSize ?? Number.MAX_SAFE_INTEGER;
@@ -251,16 +271,15 @@ const useGridTableAdapter = <TData extends RowData>(table: Table<TData>) => {
             };
         });
 
-        const distributedSizes = getDistributedColumnSizes(
-            columns,
-            table.getTotalSize()
-        );
-
-        return distributedSizes;
-    }, [leafColumns, table]);
+        return getDistributedColumnSizes(columns, totalWidth);
+    }, [allColumns, totalWidth]);
 
     const gridTemplateColumns = useMemo(() => {
-        return leafColumns
+        if (!distributedSizes) {
+            return undefined;
+        }
+
+        return allColumns
             .flatMap((column) => {
                 const size = distributedSizes.get(column.id);
 
@@ -271,13 +290,44 @@ const useGridTableAdapter = <TData extends RowData>(table: Table<TData>) => {
                 return [];
             })
             .join(" ");
-    }, [distributedSizes, leafColumns]);
+    }, [distributedSizes, allColumns]);
 
     return {
         headerRows,
         rows,
         gridTemplateColumns,
     };
+};
+
+export const useResizeObserver = <T extends HTMLElement>(
+    callback: (entry: ResizeObserverEntry, target: T) => void
+): RefCallback<T> => {
+    const [element, setElement] = useState<T | null>(null);
+
+    const cb = useRef(callback);
+    cb.current = callback;
+
+    useLayoutEffect(() => {
+        if (!element) {
+            return;
+        }
+
+        const observer = new ResizeObserver((entries) => {
+            const entry = entries[0];
+
+            if (entry) {
+                cb.current(entry, element);
+            }
+        });
+
+        observer.observe(element);
+
+        return () => {
+            observer.disconnect();
+        };
+    }, [element]);
+
+    return setElement;
 };
 
 const Table = <TData extends RowData>(props: ITableProps<TData>) => {
@@ -287,13 +337,28 @@ const Table = <TData extends RowData>(props: ITableProps<TData>) => {
         getCoreRowModel: getCoreRowModel(),
     });
 
-    const adapter = useGridTableAdapter(table);
+    const [measuredWidth, setMeasuredWidth] = useState<number | undefined>(
+        undefined
+    );
+
+    const setObserver = useResizeObserver(({ contentRect }) => {
+        const width = Math.round(contentRect.width);
+        if (width > 0) {
+            setMeasuredWidth(width);
+        }
+    });
+
+    const adapter = useGridTableAdapter(table, measuredWidth);
 
     return (
-        <GridTable
-            gridTemplateColumns={adapter.gridTemplateColumns}
-            headerRows={adapter.headerRows}
-            rows={adapter.rows}
-        />
+        <div ref={setObserver}>
+            {adapter.gridTemplateColumns && (
+                <GridTable
+                    gridTemplateColumns={adapter.gridTemplateColumns}
+                    headerRows={adapter.headerRows}
+                    rows={adapter.rows}
+                />
+            )}
+        </div>
     );
 };
