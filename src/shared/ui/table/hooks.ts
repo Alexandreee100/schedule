@@ -1,26 +1,8 @@
-import { Flex, Grid } from "@radix-ui/themes";
-import {
-    type ReactNode,
-    type Ref,
-    type RefCallback,
-    useLayoutEffect,
-    useMemo,
-    useRef,
-    useState,
-    forwardRef,
-} from "react";
-import styles from "./table-view.module.css";
-import { clsx } from "clsx";
+import { flexRender, type RowData, type Table } from "@tanstack/react-table";
+import type { ICellGridTable, IRowGridTable } from "./grid-table";
+import { useMemo } from "react";
 import type { SetRequired } from "type-fest";
 import { assertAndReturn } from "../../asserts";
-import {
-    type ColumnDef,
-    flexRender,
-    getCoreRowModel,
-    type RowData,
-    type Table,
-    useReactTable,
-} from "@tanstack/react-table";
 
 export interface ITableViewColumn {
     id: string;
@@ -116,87 +98,7 @@ const getDistributedColumnSizes = (
     return sizeById;
 };
 
-interface ICellGridTable {
-    id: string;
-    content: ReactNode;
-    colSpan?: number;
-}
-
-interface IRowGridTable {
-    id: string;
-    cells: ICellGridTable[];
-}
-
-export interface IGridTableProps {
-    gridTemplateColumns: string;
-    headerRows: IRowGridTable[];
-    rows: IRowGridTable[];
-    className?: string;
-    ref?: Ref<HTMLDivElement>;
-}
-
-const GridTable = forwardRef<HTMLDivElement, IGridTableProps>(
-    function GridTable(
-        { gridTemplateColumns, rows, headerRows, className },
-        ref
-    ) {
-        return (
-            <Grid className={clsx(styles.table, className)} ref={ref}>
-                {headerRows.map((headerRow) => (
-                    <Grid
-                        key={headerRow.id}
-                        columns={gridTemplateColumns}
-                        className={styles.row}
-                    >
-                        {headerRow.cells.map((cell) => {
-                            const gridColumn = cell.colSpan
-                                ? `span ${cell.colSpan}`
-                                : undefined;
-
-                            return (
-                                <Flex
-                                    key={cell.id}
-                                    className={clsx(
-                                        styles.cell,
-                                        styles.headerCell
-                                    )}
-                                    gridColumn={gridColumn}
-                                    align="center"
-                                >
-                                    {cell.content}
-                                </Flex>
-                            );
-                        })}
-                    </Grid>
-                ))}
-                {rows.map((row) => (
-                    <Grid
-                        key={row.id}
-                        columns={gridTemplateColumns}
-                        className={styles.row}
-                    >
-                        {row.cells.map((cell) => (
-                            <Flex
-                                key={cell.id}
-                                className={styles.cell}
-                                align="center"
-                            >
-                                {cell.content}
-                            </Flex>
-                        ))}
-                    </Grid>
-                ))}
-            </Grid>
-        );
-    }
-);
-
-interface ITableProps<TData extends RowData> {
-    columns: ColumnDef<TData>[];
-    data: TData[];
-}
-
-const useGridTableAdapter = <TData extends RowData>(
+export const useGridTableAdapter = <TData extends RowData>(
     table: Table<TData>,
     totalWidth: number | undefined
 ) => {
@@ -297,68 +199,4 @@ const useGridTableAdapter = <TData extends RowData>(
         rows,
         gridTemplateColumns,
     };
-};
-
-export const useResizeObserver = <T extends HTMLElement>(
-    callback: (entry: ResizeObserverEntry, target: T) => void
-): RefCallback<T> => {
-    const [element, setElement] = useState<T | null>(null);
-
-    const cb = useRef(callback);
-    cb.current = callback;
-
-    useLayoutEffect(() => {
-        if (!element) {
-            return;
-        }
-
-        const observer = new ResizeObserver((entries) => {
-            const entry = entries[0];
-
-            if (entry) {
-                cb.current(entry, element);
-            }
-        });
-
-        observer.observe(element);
-
-        return () => {
-            observer.disconnect();
-        };
-    }, [element]);
-
-    return setElement;
-};
-
-const Table = <TData extends RowData>(props: ITableProps<TData>) => {
-    const table = useReactTable({
-        columns: props.columns,
-        data: props.data,
-        getCoreRowModel: getCoreRowModel(),
-    });
-
-    const [measuredWidth, setMeasuredWidth] = useState<number | undefined>(
-        undefined
-    );
-
-    const setObserver = useResizeObserver(({ contentRect }) => {
-        const width = Math.round(contentRect.width);
-        if (width > 0) {
-            setMeasuredWidth(width);
-        }
-    });
-
-    const adapter = useGridTableAdapter(table, measuredWidth);
-
-    return (
-        <div ref={setObserver}>
-            {adapter.gridTemplateColumns && (
-                <GridTable
-                    gridTemplateColumns={adapter.gridTemplateColumns}
-                    headerRows={adapter.headerRows}
-                    rows={adapter.rows}
-                />
-            )}
-        </div>
-    );
 };

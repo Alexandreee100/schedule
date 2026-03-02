@@ -1,59 +1,51 @@
-import { Box, Flex, Grid } from "@radix-ui/themes";
-import { type CSSProperties, useMemo } from "react";
-import { flexRender, useReactTable } from "@tanstack/react-table";
+import { useState } from "react";
+import {
+    type ColumnDef,
+    getCoreRowModel,
+    type RowData,
+    useReactTable,
+} from "@tanstack/react-table";
+import { useResizeObserver } from "./use-resize-observer";
+import { GridTable } from "./grid-table";
+import { useGridTableAdapter } from "./hooks";
 
-interface ITable {
-    headerRows: { id: string; cells: { id: string }[] }[];
-    rows: { id: string }[];
+interface ITableProps<TData extends RowData> {
+    columns: ColumnDef<TData>[];
+    data: TData[];
+    fullWidth?: boolean;
+    width?: number;
 }
 
-const Table = ({ headerRows }: ITable) => {
-    const table = useReactTable({ columns: [], data: [] });
-    const visibleLeafColumns = table.getVisibleLeafColumns();
-    const columns = useMemo(() => {
-        return visibleLeafColumns
-            .map((column) => `${column.getSize()}px`)
-            .join(" ");
-    }, [visibleLeafColumns]);
+const Table = <TData extends RowData>(props: ITableProps<TData>) => {
+    const table = useReactTable({
+        columns: props.columns,
+        data: props.data,
+        getCoreRowModel: getCoreRowModel(),
+    });
 
-    const rowModel = table.getRowModel();
+    const [measuredWidth, setMeasuredWidth] = useState<number | undefined>(
+        undefined
+    );
+
+    const setObserver = useResizeObserver(({ contentRect }) => {
+        const width = Math.round(contentRect.width);
+
+        if (width > 0) {
+            setMeasuredWidth(width);
+        }
+    });
+
+    const adapter = useGridTableAdapter(table, measuredWidth);
 
     return (
-        <Box>
-            {table.getHeaderGroups().map((headerGroup) => (
-                <Grid key={headerGroup.id} columns={columns}>
-                    {headerGroup.headers.map((header) => {
-                        const style: CSSProperties = {
-                            gridColumn: `span ${header.colSpan}`,
-                        };
-
-                        return (
-                            <Flex key={header.id} style={style}>
-                                {flexRender(
-                                    header.column.columnDef.header,
-                                    header.getContext()
-                                )}
-                            </Flex>
-                        );
-                    })}
-                </Grid>
-            ))}
-            {rowModel.rows.map((row) => {
-                return (
-                    <Grid key={row.id} columns={columns}>
-                        {row.getVisibleCells().map((cell) => {
-                            return (
-                                <Flex key={cell.id}>
-                                    {flexRender(
-                                        cell.column.columnDef.cell,
-                                        cell.getContext()
-                                    )}
-                                </Flex>
-                            );
-                        })}
-                    </Grid>
-                );
-            })}
-        </Box>
+        <div ref={setObserver}>
+            {adapter.gridTemplateColumns && (
+                <GridTable
+                    gridTemplateColumns={adapter.gridTemplateColumns}
+                    headerRows={adapter.headerRows}
+                    rows={adapter.rows}
+                />
+            )}
+        </div>
     );
 };
