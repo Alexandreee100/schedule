@@ -1,7 +1,7 @@
 import { forwardRef, type ReactNode, type Ref } from "react";
 import { Flex, Grid } from "@radix-ui/themes";
 import { clsx } from "clsx";
-import styles from "./table.module.css";
+import styles from "./grid-table.module.css";
 
 export interface ICellGridTable {
     id: string;

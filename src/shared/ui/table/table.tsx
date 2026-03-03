@@ -5,8 +5,8 @@ import {
     type RowData,
     useReactTable,
 } from "@tanstack/react-table";
-import { useResizeObserver } from "./use-resize-observer";
-import { GridTable } from "./grid-table";
+import { useResizeObserver } from "../../hooks/use-resize-observer";
+import { GridTable } from "../grid-table/grid-table";
 import { useGridTableAdapter } from "./hooks";
 
 interface ITableProps<TData extends RowData> {
@@ -23,19 +23,32 @@ const Table = <TData extends RowData>(props: ITableProps<TData>) => {
         getCoreRowModel: getCoreRowModel(),
     });
 
-    const [measuredWidth, setMeasuredWidth] = useState<number | undefined>(
-        undefined
+    const [tableTotalWidth, setTableWidth] = useState<number | undefined>(
+        () => {
+            if (props.fullWidth) {
+                return undefined;
+            }
+
+            if (props.width) {
+                return props.width;
+            }
+
+            return table.getTotalSize();
+        }
     );
 
-    const setObserver = useResizeObserver(({ contentRect }) => {
-        const width = Math.round(contentRect.width);
+    const setObserver = useResizeObserver({
+        enable: !!props.fullWidth,
+        callback: ({ contentRect }) => {
+            const width = Math.round(contentRect.width);
 
-        if (width > 0) {
-            setMeasuredWidth(width);
-        }
+            if (width > 0) {
+                setTableWidth(width);
+            }
+        },
     });
 
-    const adapter = useGridTableAdapter(table, measuredWidth);
+    const adapter = useGridTableAdapter(table, tableTotalWidth);
 
     return (
         <div ref={setObserver}>

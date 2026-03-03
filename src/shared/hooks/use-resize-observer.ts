@@ -1,14 +1,25 @@
 import { useLayoutEffect, useState, type RefCallback, useRef } from "react";
 
-export const useResizeObserver = <T extends HTMLElement>(
-    callback: (entry: ResizeObserverEntry, target: T) => void
-): RefCallback<T> => {
+export const useResizeObserver = <T extends HTMLElement>({
+    callback,
+    enable,
+}: {
+    enable: boolean;
+    callback: (entry: ResizeObserverEntry, target: T) => void;
+}): RefCallback<T> => {
     const [element, setElement] = useState<T | null>(null);
 
     const cb = useRef(callback);
-    cb.current = callback;
 
     useLayoutEffect(() => {
+        cb.current = callback;
+    });
+
+    useLayoutEffect(() => {
+        if (!enable) {
+            return;
+        }
+
         if (!element) {
             return;
         }
@@ -26,7 +37,7 @@ export const useResizeObserver = <T extends HTMLElement>(
         return () => {
             observer.disconnect();
         };
-    }, [element]);
+    }, [element, enable]);
 
     return setElement;
 };
