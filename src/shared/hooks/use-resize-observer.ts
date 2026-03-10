@@ -1,4 +1,4 @@
-import { useLayoutEffect, useState, type RefCallback, useRef } from "react";
+import { type RefCallback, useEffect, useRef, useState } from "react";
 
 export const useResizeObserver = <T extends HTMLElement>({
     callback,
@@ -11,11 +11,10 @@ export const useResizeObserver = <T extends HTMLElement>({
 
     const cb = useRef(callback);
 
-    useLayoutEffect(() => {
-        cb.current = callback;
-    });
+    // eslint-disable-next-line react-hooks/refs
+    cb.current = callback;
 
-    useLayoutEffect(() => {
+    useEffect(() => {
         if (!enable) {
             return;
         }
