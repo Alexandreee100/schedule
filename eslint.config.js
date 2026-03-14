@@ -9,10 +9,13 @@ import reactHooks from "eslint-plugin-react-hooks";
 export default defineConfig([
     {
         settings: {
-            react: {
+            "react": {
                 version: "detect",
             },
-            componentWrapperFunctions: ["observer"],
+            "componentWrapperFunctions": ["observer"],
+            "react-hooks": {
+                additionalEffectHooks: "(useViewModel)",
+            },
         },
         extends: [
             js.configs.recommended,
@@ -63,7 +66,10 @@ export default defineConfig([
                 },
             ],
             "@typescript-eslint/method-signature-style": ["error", "property"],
-            "@typescript-eslint/no-unused-expressions": ["error", { allowTernary: true }],
+            "@typescript-eslint/no-unused-expressions": [
+                "error",
+                { allowTernary: true },
+            ],
             "@typescript-eslint/explicit-member-accessibility": [
                 "error",
                 {
