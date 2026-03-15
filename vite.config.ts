@@ -49,7 +49,9 @@ export default defineConfig(({ mode }) => {
                 ref: true,
             },
         }),
-        tsconfigPaths(),
+        tsconfigPaths({
+            projects: ["tsconfig.app.json"],
+        }),
     ];
 
     if (isDevMode) {

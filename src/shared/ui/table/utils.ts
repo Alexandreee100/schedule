@@ -7,7 +7,6 @@ export const getDistributedColumnSizes = (
     totalWidth: number
 ) => {
     const epsilon = 0.01;
-
     const growableColumns: SetRequired<ITableViewColumn, "grow">[] = [];
     const fixedColumns: ITableViewColumn[] = [];
 

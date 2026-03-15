@@ -2,6 +2,25 @@ import { forwardRef, type ReactNode, type Ref } from "react";
 import { Flex, Grid } from "@radix-ui/themes";
 import { clsx } from "clsx";
 import styles from "./grid-table.module.css";
+import { cva, type VariantProps } from "class-variance-authority";
+
+const grid = cva([styles.table], {
+    variants: {
+        appearance: {
+            surface: [styles.surface],
+            ghost: [styles.ghost],
+        },
+        size: {
+            1: styles.space1,
+            2: styles.space2,
+            3: styles.space3,
+        },
+    },
+    defaultVariants: {
+        appearance: "surface",
+        size: 2,
+    },
+});
 
 export interface ICellGridTable {
     id: string;
@@ -14,7 +33,7 @@ export interface IRowGridTable {
     cells: ICellGridTable[];
 }
 
-export interface IGridTableProps {
+export interface IGridTableProps extends VariantProps<typeof grid> {
     gridTemplateColumns: string;
     headerRows: IRowGridTable[];
     rows: IRowGridTable[];
@@ -23,57 +42,51 @@ export interface IGridTableProps {
 }
 
 export const GridTable = forwardRef<HTMLDivElement, IGridTableProps>(
-    function GridTable(
-        { gridTemplateColumns, rows, headerRows, className },
-        ref
-    ) {
-        return (
-            <Grid className={clsx(styles.table, className)} ref={ref}>
-                {headerRows.map((headerRow) => (
-                    <Grid
-                        key={headerRow.id}
-                        columns={gridTemplateColumns}
-                        className={styles.row}
-                    >
-                        {headerRow.cells.map((cell) => {
-                            const gridColumn = cell.colSpan
-                                ? `span ${cell.colSpan}`
-                                : undefined;
+    ({ gridTemplateColumns, rows, headerRows, className, appearance }, ref) => (
+        <Grid className={grid({ appearance, className })} ref={ref}>
+            {headerRows.map((headerRow) => (
+                <Grid
+                    key={headerRow.id}
+                    columns={gridTemplateColumns}
+                    className={clsx(styles.row, styles.headerRow)}
+                >
+                    {headerRow.cells.map((cell) => {
+                        const gridColumn = cell.colSpan
+                            ? `span ${cell.colSpan}`
+                            : undefined;
 
-                            return (
-                                <Flex
-                                    key={cell.id}
-                                    className={clsx(
-                                        styles.cell,
-                                        styles.headerCell
-                                    )}
-                                    gridColumn={gridColumn}
-                                    align="center"
-                                >
-                                    {cell.content}
-                                </Flex>
-                            );
-                        })}
-                    </Grid>
-                ))}
-                {rows.map((row) => (
-                    <Grid
-                        key={row.id}
-                        columns={gridTemplateColumns}
-                        className={styles.row}
-                    >
-                        {row.cells.map((cell) => (
+                        return (
                             <Flex
                                 key={cell.id}
                                 className={styles.cell}
+                                gridColumn={gridColumn}
                                 align="center"
                             >
                                 {cell.content}
                             </Flex>
-                        ))}
-                    </Grid>
-                ))}
-            </Grid>
-        );
-    }
+                        );
+                    })}
+                </Grid>
+            ))}
+            {rows.map((row) => (
+                <Grid
+                    key={row.id}
+                    columns={gridTemplateColumns}
+                    className={styles.row}
+                >
+                    {row.cells.map((cell) => (
+                        <Flex
+                            key={cell.id}
+                            className={styles.cell}
+                            align="center"
+                        >
+                            {cell.content}
+                        </Flex>
+                    ))}
+                </Grid>
+            ))}
+        </Grid>
+    )
 );
+
+GridTable.displayName = "GridTable";

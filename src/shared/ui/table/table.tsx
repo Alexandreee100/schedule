@@ -10,13 +10,13 @@ import { GridTable } from "../grid-table/grid-table";
 import { useGridTableAdapter } from "./hooks";
 
 interface ITableProps<TData extends RowData> {
-    columns: ColumnDef<TData>[];
+    columns: ColumnDef<TData, any>[];
     data: TData[];
     fullWidth?: boolean;
     width?: number;
 }
 
-const Table = <TData extends RowData>(props: ITableProps<TData>) => {
+export const Table = <TData extends RowData>(props: ITableProps<TData>) => {
     const table = useReactTable({
         columns: props.columns,
         data: props.data,
@@ -54,6 +54,7 @@ const Table = <TData extends RowData>(props: ITableProps<TData>) => {
         <div ref={setObserver}>
             {adapter.gridTemplateColumns && (
                 <GridTable
+                    size={2}
                     gridTemplateColumns={adapter.gridTemplateColumns}
                     headerRows={adapter.headerRows}
                     rows={adapter.rows}

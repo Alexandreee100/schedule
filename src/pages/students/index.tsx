@@ -1,16 +1,12 @@
-import { ViewModel } from "../../core/view-model/view-model";
 import { useViewModel } from "../../core/view-model/hooks/use-view-model";
 import { Flex, Section } from "@radix-ui/themes";
 import { AddNewStudentMenu } from "./actions/add-new-student-menu";
 import { SelectedRowsActionMenu } from "./actions/selected-rows-action-menu";
+import { Table } from "@/shared/ui/table";
+import { StudentsViewModel } from "./vm";
+import { observer } from "mobx-react-lite";
 
-class StudentsViewModel extends ViewModel {
-    public get students() {
-        return [];
-    }
-}
-
-const Students = () => {
+const Students = observer(() => {
     const vm = useViewModel(() => new StudentsViewModel(), []);
 
     return (
@@ -21,10 +17,14 @@ const Students = () => {
                     <SelectedRowsActionMenu />
                 </Flex>
             </Section>
-            <Section>Таблица</Section>
+            <Section>
+                <Table fullWidth columns={vm.columns} data={vm.data} />
+            </Section>
             <div>Пагинация</div>
         </div>
     );
-};
+});
+
+Students.displayName = "Students";
 
 export default Students;

@@ -1,29 +1,44 @@
 import { createColumnHelper } from "@tanstack/react-table";
+import { CheckboxCell } from "./cells/checkbox-cell";
+import { TextCell } from "./cells/text-cell";
+
 import type { IStudentTableDTO } from "./types";
-import { CheckboxCell } from "./components/checkbox-cell";
-import { TextCell } from "./components/text-cell";
+
+interface ICreateColumnsParams {
+    onToggleStudent: (id: string) => void;
+}
 
 const helper = createColumnHelper<IStudentTableDTO>();
 
-export const createColumns = () => {
+export const createColumns = ({ onToggleStudent }: ICreateColumnsParams) => {
     return [
         helper.display({
             id: "checkbox",
             cell: (ctx) => (
                 <CheckboxCell
-                    rowId={ctx.row.original.item.id}
-                    isSelected={ctx.row.original.isSelected}
+                    checked={ctx.row.original.isSelected}
+                    studentId={ctx.row.original.item.id}
+                    onToggle={onToggleStudent}
                 />
             ),
         }),
         helper.accessor("item.name", {
             cell: (ctx) => <TextCell value={ctx.getValue()} />,
+            meta: {
+                grow: 1,
+            },
         }),
         helper.accessor("item.notes", {
             cell: (ctx) => <TextCell value={ctx.getValue()} />,
+            meta: {
+                grow: 1,
+            },
         }),
         helper.accessor("item.contact", {
             cell: (ctx) => <TextCell value={ctx.getValue()} />,
+            meta: {
+                grow: 1,
+            },
         }),
     ];
 };
