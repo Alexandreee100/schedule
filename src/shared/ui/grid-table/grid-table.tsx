@@ -1,9 +1,4 @@
-import {
-    forwardRef,
-    type CSSProperties,
-    type ReactNode,
-    type Ref,
-} from "react";
+import { type CSSProperties, forwardRef, type ReactNode } from "react";
 import { Flex, Grid } from "@radix-ui/themes";
 import { clsx } from "clsx";
 import styles from "./grid-table.module.css";
@@ -15,6 +10,10 @@ const gridVariants = cva([styles.table], {
             surface: [styles.surface],
             ghost: [styles.ghost],
         },
+        rounded: {
+            true: null,
+            false: styles.roundedNone,
+        },
         size: {
             1: styles.space1,
             2: styles.space2,
@@ -23,6 +22,7 @@ const gridVariants = cva([styles.table], {
     },
     defaultVariants: {
         appearance: "surface",
+        rounded: true,
         size: 2,
     },
 });
@@ -57,6 +57,7 @@ export const GridTable = forwardRef<HTMLDivElement, IGridTableProps>(
             rowHeight,
             className,
             appearance,
+            rounded,
             size,
         },
         ref
@@ -68,7 +69,12 @@ export const GridTable = forwardRef<HTMLDivElement, IGridTableProps>(
 
         return (
             <Grid
-                className={gridVariants({ appearance, size, className })}
+                className={gridVariants({
+                    appearance,
+                    rounded,
+                    size,
+                    className,
+                })}
                 style={tableStyle}
                 ref={ref}
             >

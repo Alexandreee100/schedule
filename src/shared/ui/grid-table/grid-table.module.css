@@ -19,6 +19,10 @@
     overflow: hidden;
 }
 
+.table.surface.rounded-none {
+    --table-radius: 0;
+}
+
 .table.surface > .row:not(:last-child) {
     border-bottom: 1px solid var(--border-color);
 }
