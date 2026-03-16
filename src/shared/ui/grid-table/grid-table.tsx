@@ -22,7 +22,6 @@ const gridVariants = cva([styles.table], {
     },
     defaultVariants: {
         appearance: "surface",
-        rounded: true,
         size: 2,
     },
 });

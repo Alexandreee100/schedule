@@ -6,10 +6,6 @@
     --row-height: auto;
 }
 
-.row {
-    height: var(--row-height);
-}
-
 .table.surface {
     --table-radius: var(--radius-3);
     --header-background: var(--gray-3);
@@ -21,6 +17,10 @@
 
 .table.surface.rounded-none {
     --table-radius: 0;
+}
+
+.row {
+    height: var(--row-height);
 }
 
 .table.surface > .row:not(:last-child) {
