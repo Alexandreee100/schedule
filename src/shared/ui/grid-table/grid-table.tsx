@@ -1,10 +1,15 @@
-import { forwardRef, type ReactNode, type Ref } from "react";
+import {
+    forwardRef,
+    type CSSProperties,
+    type ReactNode,
+    type Ref,
+} from "react";
 import { Flex, Grid } from "@radix-ui/themes";
 import { clsx } from "clsx";
 import styles from "./grid-table.module.css";
 import { cva, type VariantProps } from "class-variance-authority";
 
-const grid = cva([styles.table], {
+const gridVariants = cva([styles.table], {
     variants: {
         appearance: {
             surface: [styles.surface],
@@ -22,6 +27,8 @@ const grid = cva([styles.table], {
     },
 });
 
+export type GridVariantsProps = VariantProps<typeof gridVariants>;
+
 export interface ICellGridTable {
     id: string;
     content: ReactNode;
@@ -33,60 +40,82 @@ export interface IRowGridTable {
     cells: ICellGridTable[];
 }
 
-export interface IGridTableProps extends VariantProps<typeof grid> {
+export interface IGridTableProps extends GridVariantsProps {
     gridTemplateColumns: string;
     headerRows: IRowGridTable[];
     rows: IRowGridTable[];
+    rowHeight?: number;
     className?: string;
-    ref?: Ref<HTMLDivElement>;
 }
 
 export const GridTable = forwardRef<HTMLDivElement, IGridTableProps>(
-    ({ gridTemplateColumns, rows, headerRows, className, appearance }, ref) => (
-        <Grid className={grid({ appearance, className })} ref={ref}>
-            {headerRows.map((headerRow) => (
-                <Grid
-                    key={headerRow.id}
-                    columns={gridTemplateColumns}
-                    className={clsx(styles.row, styles.headerRow)}
-                >
-                    {headerRow.cells.map((cell) => {
-                        const gridColumn = cell.colSpan
-                            ? `span ${cell.colSpan}`
-                            : undefined;
+    (
+        {
+            gridTemplateColumns,
+            rows,
+            headerRows,
+            rowHeight,
+            className,
+            appearance,
+            size,
+        },
+        ref
+    ) => {
+        const tableStyle =
+            rowHeight !== undefined
+                ? ({ "--row-height": `${rowHeight}px` } as CSSProperties)
+                : undefined;
 
-                        return (
+        return (
+            <Grid
+                className={gridVariants({ appearance, size, className })}
+                style={tableStyle}
+                ref={ref}
+            >
+                {headerRows.map((headerRow) => (
+                    <Grid
+                        key={headerRow.id}
+                        columns={gridTemplateColumns}
+                        className={clsx(styles.row, styles.headerRow)}
+                    >
+                        {headerRow.cells.map((cell) => {
+                            const gridColumn = cell.colSpan
+                                ? `span ${cell.colSpan}`
+                                : undefined;
+
+                            return (
+                                <Flex
+                                    key={cell.id}
+                                    className={styles.cell}
+                                    gridColumn={gridColumn}
+                                    align="center"
+                                >
+                                    {cell.content}
+                                </Flex>
+                            );
+                        })}
+                    </Grid>
+                ))}
+                {rows.map((row) => (
+                    <Grid
+                        key={row.id}
+                        columns={gridTemplateColumns}
+                        className={styles.row}
+                    >
+                        {row.cells.map((cell) => (
                             <Flex
                                 key={cell.id}
                                 className={styles.cell}
-                                gridColumn={gridColumn}
                                 align="center"
                             >
                                 {cell.content}
                             </Flex>
-                        );
-                    })}
-                </Grid>
-            ))}
-            {rows.map((row) => (
-                <Grid
-                    key={row.id}
-                    columns={gridTemplateColumns}
-                    className={styles.row}
-                >
-                    {row.cells.map((cell) => (
-                        <Flex
-                            key={cell.id}
-                            className={styles.cell}
-                            align="center"
-                        >
-                            {cell.content}
-                        </Flex>
-                    ))}
-                </Grid>
-            ))}
-        </Grid>
-    )
+                        ))}
+                    </Grid>
+                ))}
+            </Grid>
+        );
+    }
 );
 
 GridTable.displayName = "GridTable";

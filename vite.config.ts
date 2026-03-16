@@ -73,6 +73,7 @@ export default defineConfig(({ mode }) => {
         appType: "spa",
         plugins,
         base: envs.PUBLIC_URL,
+        css: { modules: { localsConvention: "camelCaseOnly" } },
         build: {
             sourcemap: "hidden",
             target: ["es2020", "edge88", "firefox78", "chrome87", "safari14"],

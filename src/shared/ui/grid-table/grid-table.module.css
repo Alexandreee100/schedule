@@ -1,14 +1,21 @@
 .table {
     --header-background: transparent;
     --border-color: var(--gray-3);
-    --border-radius: var(--radius-3);
+    --table-radius: 0;
     --cell-padding: var(--space-2);
+    --row-height: auto;
+}
+
+.row {
+    height: var(--row-height);
 }
 
 .table.surface {
+    --table-radius: var(--radius-3);
     --header-background: var(--gray-3);
+
     border: 1px solid var(--border-color);
-    border-radius: var(--border-radius);
+    border-radius: var(--table-radius);
     overflow: hidden;
 }
 

@@ -54,7 +54,6 @@ export const Table = <TData extends RowData>(props: ITableProps<TData>) => {
         <div ref={setObserver}>
             {adapter.gridTemplateColumns && (
                 <GridTable
-                    size={2}
                     gridTemplateColumns={adapter.gridTemplateColumns}
                     headerRows={adapter.headerRows}
                     rows={adapter.rows}
