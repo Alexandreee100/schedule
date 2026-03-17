@@ -4,15 +4,12 @@ import { clsx } from "clsx";
 import styles from "./grid-table.module.css";
 import { cva, type VariantProps } from "class-variance-authority";
 
-const gridVariants = cva([styles.table], {
+const gridVariants = cva([styles.base], {
     variants: {
         appearance: {
             surface: [styles.surface],
             ghost: [styles.ghost],
-        },
-        rounded: {
-            true: null,
-            false: styles.roundedNone,
+            embedded: [styles.embedded],
         },
         size: {
             1: styles.space1,
@@ -56,7 +53,6 @@ export const GridTable = forwardRef<HTMLDivElement, IGridTableProps>(
             rowHeight,
             className,
             appearance,
-            rounded,
             size,
         },
         ref
@@ -70,7 +66,6 @@ export const GridTable = forwardRef<HTMLDivElement, IGridTableProps>(
             <Grid
                 className={gridVariants({
                     appearance,
-                    rounded,
                     size,
                     className,
                 })}

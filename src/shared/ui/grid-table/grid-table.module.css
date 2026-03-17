@@ -1,33 +1,34 @@
-.table {
+.base {
     --header-background: transparent;
     --border-color: var(--gray-3);
     --table-radius: 0;
     --cell-padding: var(--space-2);
     --row-height: auto;
+
+    overflow: auto;
 }
 
-.table.surface {
+.base.surface {
     --table-radius: var(--radius-3);
     --header-background: var(--gray-3);
 
     border: 1px solid var(--border-color);
     border-radius: var(--table-radius);
-    overflow: hidden;
 }
 
-.table.surface.rounded-none {
-    --table-radius: 0;
+.base.embedded {
+    --header-background: var(--gray-3);
 }
 
 .row {
     height: var(--row-height);
 }
 
-.table.surface > .row:not(:last-child) {
+.base:is(.embedded, .surface) > .row:not(:last-child) {
     border-bottom: 1px solid var(--border-color);
 }
 
-.table.ghost > .row {
+.base.ghost > .row {
     border-bottom: 1px solid var(--border-color);
 }
 
@@ -39,14 +40,14 @@
     padding: var(--cell-padding);
 }
 
-.table.space-1 {
+.base.space-1 {
     --cell-padding: var(--space-1);
 }
 
-.table.space-2 {
+.base.space-2 {
     --cell-padding: var(--space-2);
 }
 
-.table.space-3 {
+.base.space-3 {
     --cell-padding: var(--space-3);
 }
