@@ -6,24 +6,23 @@ import { cva, type VariantProps } from "class-variance-authority";
 
 const gridVariants = cva([styles.base], {
     variants: {
-        appearance: {
-            surface: [styles.surface],
-            ghost: [styles.ghost],
-            embedded: [styles.embedded],
-        },
         size: {
             1: styles.space1,
             2: styles.space2,
             3: styles.space3,
         },
+        dividers: {
+            inner: styles.dividersInner,
+            all: styles.dividersAll,
+        },
     },
     defaultVariants: {
-        appearance: "surface",
         size: 2,
+        dividers: "inner",
     },
 });
 
-export type GridVariantsProps = VariantProps<typeof gridVariants>;
+export type GridTableVariantsProps = VariantProps<typeof gridVariants>;
 
 export interface ICellGridTable {
     id: string;
@@ -36,7 +35,7 @@ export interface IRowGridTable {
     cells: ICellGridTable[];
 }
 
-export interface IGridTableProps extends GridVariantsProps {
+export interface IGridTableProps extends GridTableVariantsProps {
     gridTemplateColumns: string;
     headerRows: IRowGridTable[];
     rows: IRowGridTable[];
@@ -52,21 +51,21 @@ export const GridTable = forwardRef<HTMLDivElement, IGridTableProps>(
             headerRows,
             rowHeight,
             className,
-            appearance,
             size,
+            dividers,
         },
         ref
     ) => {
-        const tableStyle =
+        const tableStyle: CSSProperties | undefined =
             rowHeight !== undefined
-                ? ({ "--row-height": `${rowHeight}px` } as CSSProperties)
+                ? { "--row-height": `${rowHeight}px` }
                 : undefined;
 
         return (
             <Grid
                 className={gridVariants({
-                    appearance,
                     size,
+                    dividers,
                     className,
                 })}
                 style={tableStyle}
@@ -106,6 +105,11 @@ export const GridTable = forwardRef<HTMLDivElement, IGridTableProps>(
                             <Flex
                                 key={cell.id}
                                 className={styles.cell}
+                                gridColumn={
+                                    cell.colSpan
+                                        ? `span ${cell.colSpan}`
+                                        : undefined
+                                }
                                 align="center"
                             >
                                 {cell.content}

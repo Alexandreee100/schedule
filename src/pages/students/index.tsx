@@ -1,5 +1,5 @@
 import { useViewModel } from "../../core/view-model/hooks/use-view-model";
-import { Flex, Section } from "@radix-ui/themes";
+import { Box, Flex, Section } from "@radix-ui/themes";
 import { AddNewStudentMenu } from "./actions/add-new-student-menu";
 import { SelectedRowsActionMenu } from "./actions/selected-rows-action-menu";
 import { Table } from "@/shared/ui/table";

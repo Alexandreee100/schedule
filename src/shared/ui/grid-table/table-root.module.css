@@ -1,0 +1,20 @@
+.base {
+    --table-border-color: var(--gray-3);
+    --table-row-divider-color: var(--gray-3);
+    --table-cell-padding: var(--space-2);
+    --table-header-background: transparent;
+
+    &.surface {
+        --table-header-background: var(--gray-3);
+
+        border: 1px solid var(--table-border-color);
+        border-radius: var(--radius-3);
+    }
+
+    &.ghost {
+    }
+}
+
+.viewport {
+    overflow-x: auto;
+}

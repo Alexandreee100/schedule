@@ -6,7 +6,7 @@ import {
     useReactTable,
 } from "@tanstack/react-table";
 import { useResizeObserver } from "../../hooks/use-resize-observer";
-import { GridTable } from "../grid-table/grid-table";
+import { type ITableRootProps, TableRoot } from "../grid-table/table-root";
 import { useGridTableAdapter } from "./hooks";
 
 interface ITableProps<TData extends RowData> {
@@ -14,6 +14,12 @@ interface ITableProps<TData extends RowData> {
     data: TData[];
     fullWidth?: boolean;
     width?: number;
+    appearance?: ITableRootProps["appearance"];
+    size?: ITableRootProps["size"];
+    rowHeight?: ITableRootProps["rowHeight"];
+    className?: ITableRootProps["className"];
+    header?: ITableRootProps["header"];
+    footer?: ITableRootProps["footer"];
 }
 
 export const Table = <TData extends RowData>(props: ITableProps<TData>) => {
@@ -53,7 +59,13 @@ export const Table = <TData extends RowData>(props: ITableProps<TData>) => {
     return (
         <div ref={setObserver}>
             {adapter.gridTemplateColumns && (
-                <GridTable
+                <TableRoot
+                    appearance={props.appearance}
+                    size={props.size}
+                    rowHeight={props.rowHeight}
+                    className={props.className}
+                    header={props.header}
+                    footer={props.footer}
                     gridTemplateColumns={adapter.gridTemplateColumns}
                     headerRows={adapter.headerRows}
                     rows={adapter.rows}
