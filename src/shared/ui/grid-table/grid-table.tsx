@@ -36,7 +36,7 @@ export interface IRowGridTable {
 }
 
 export interface IGridTableProps extends GridTableVariantsProps {
-    gridTemplateColumns: string;
+    gridTemplateColumns?: string;
     headerRows: IRowGridTable[];
     rows: IRowGridTable[];
     rowHeight?: number;

@@ -57,20 +57,18 @@ export const Table = <TData extends RowData>(props: ITableProps<TData>) => {
     const adapter = useGridTableAdapter(table, tableTotalWidth);
 
     return (
-        <div ref={setObserver}>
-            {adapter.gridTemplateColumns && (
-                <TableRoot
-                    appearance={props.appearance}
-                    size={props.size}
-                    rowHeight={props.rowHeight}
-                    className={props.className}
-                    header={props.header}
-                    footer={props.footer}
-                    gridTemplateColumns={adapter.gridTemplateColumns}
-                    headerRows={adapter.headerRows}
-                    rows={adapter.rows}
-                />
-            )}
-        </div>
+        <TableRoot
+            totalSize={tableTotalWidth}
+            appearance={props.appearance}
+            size={props.size}
+            rowHeight={props.rowHeight}
+            className={props.className}
+            header={props.header}
+            footer={props.footer}
+            gridTemplateColumns={adapter.gridTemplateColumns}
+            headerRows={adapter.headerRows}
+            rows={adapter.rows}
+            ref={setObserver}
+        />
     );
 };

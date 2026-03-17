@@ -4,6 +4,8 @@
     --table-cell-padding: var(--space-2);
     --table-header-background: transparent;
 
+    width: 100%;
+
     &.surface {
         --table-header-background: var(--gray-3);
 
@@ -15,6 +17,6 @@
     }
 }
 
-.viewport {
+.table-viewport {
     overflow-x: auto;
 }

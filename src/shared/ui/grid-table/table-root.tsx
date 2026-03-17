@@ -29,15 +29,31 @@ export interface ITableRootProps
     header?: ReactNode;
     footer?: ReactNode;
     size?: GridTableVariantsProps["size"];
+    totalSize?: number;
     className?: string;
 }
 
 export const TableRoot = forwardRef<HTMLDivElement, ITableRootProps>(
-    ({ header, footer, appearance, size, className, ...gridProps }, ref) => {
+    (
+        {
+            header,
+            footer,
+            appearance,
+            size,
+            className,
+            totalSize,
+            gridTemplateColumns,
+            ...gridProps
+        },
+        ref
+    ) => {
         const dividers = appearance === "ghost" ? "all" : "inner";
+
+        const width = `${totalSize}px`;
 
         return (
             <Flex
+                width={width}
                 direction="column"
                 className={tableRootVariants({
                     appearance,
@@ -46,8 +62,15 @@ export const TableRoot = forwardRef<HTMLDivElement, ITableRootProps>(
                 ref={ref}
             >
                 {header}
-                <Box className={styles.viewport}>
-                    <GridTable {...gridProps} size={size} dividers={dividers} />
+                <Box className={styles.tableViewport}>
+                    {gridTemplateColumns && (
+                        <GridTable
+                            gridTemplateColumns={gridTemplateColumns}
+                            size={size}
+                            dividers={dividers}
+                            {...gridProps}
+                        />
+                    )}
                 </Box>
                 {footer}
             </Flex>
