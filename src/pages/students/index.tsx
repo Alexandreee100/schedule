@@ -1,5 +1,5 @@
 import { useViewModel } from "../../core/view-model/hooks/use-view-model";
-import { Box, Flex, Section } from "@radix-ui/themes";
+import { Flex, Section } from "@radix-ui/themes";
 import { AddNewStudentMenu } from "./actions/add-new-student-menu";
 import { SelectedRowsActionMenu } from "./actions/selected-rows-action-menu";
 import { Table } from "@/shared/ui/table";
@@ -18,7 +18,7 @@ const Students = observer(() => {
                 </Flex>
             </Section>
             <Section>
-                <Table fullWidth columns={vm.columns} data={vm.data} />
+                <Table columns={vm.columns} data={vm.data} />
             </Section>
             <div>Пагинация</div>
         </div>

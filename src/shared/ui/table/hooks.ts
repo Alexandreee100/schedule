@@ -19,7 +19,7 @@ export const useGridTableAdapter = <TData extends RowData>(
 
     const headerGroups = table.getHeaderGroups();
     const tableRows = rowModel.rows;
-    const allColumns = table.getAllLeafColumns();
+    const visibleColumns = table.getVisibleLeafColumns();
 
     const headerRows: IRowGridTable[] = useMemo(
         () =>
@@ -71,7 +71,7 @@ export const useGridTableAdapter = <TData extends RowData>(
             return undefined;
         }
 
-        const columns = allColumns.map((column) => {
+        const columns = visibleColumns.map((column) => {
             const size = column.columnDef.size ?? 0;
             const minSize = column.columnDef.minSize ?? 0;
             const maxSize = column.columnDef.maxSize ?? Number.MAX_SAFE_INTEGER;
@@ -87,29 +87,29 @@ export const useGridTableAdapter = <TData extends RowData>(
         });
 
         return getDistributedColumnSizes(columns, totalWidth);
-    }, [allColumns, totalWidth]);
+    }, [visibleColumns, totalWidth]);
 
-    const gridTemplateColumns = useMemo(() => {
+    const columnSizes = useMemo(() => {
         if (!distributedSizes) {
             return undefined;
         }
 
-        return allColumns
-            .flatMap((column) => {
-                const size = distributedSizes.get(column.id);
+        const sizes = visibleColumns.flatMap((column) => {
+            const size = distributedSizes.get(column.id);
 
-                if (size !== undefined) {
-                    return `${size}px`;
-                }
+            if (size !== undefined) {
+                return size;
+            }
 
-                return [];
-            })
-            .join(" ");
-    }, [distributedSizes, allColumns]);
+            return [];
+        });
+
+        return sizes.length > 0 ? sizes : undefined;
+    }, [distributedSizes, visibleColumns]);
 
     return {
         headerRows,
         rows,
-        gridTemplateColumns,
+        columnSizes,
     };
 };

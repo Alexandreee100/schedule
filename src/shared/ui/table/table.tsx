@@ -1,10 +1,10 @@
-import { useState } from "react";
 import {
     type ColumnDef,
     getCoreRowModel,
     type RowData,
     useReactTable,
 } from "@tanstack/react-table";
+import { useState } from "react";
 import { useResizeObserver } from "../../hooks/use-resize-observer";
 import { type ITableRootProps, TableRoot } from "../grid-table/table-root";
 import { useGridTableAdapter } from "./hooks";
@@ -15,12 +15,28 @@ interface ITableProps<TData extends RowData> {
     fullWidth?: boolean;
     width?: number;
     appearance?: ITableRootProps["appearance"];
-    size?: ITableRootProps["size"];
+    density?: ITableRootProps["density"];
     rowHeight?: ITableRootProps["rowHeight"];
     className?: ITableRootProps["className"];
     header?: ITableRootProps["header"];
     footer?: ITableRootProps["footer"];
 }
+
+const getRootWidth = (
+    isFullWidth: boolean,
+    fixedWidth: number | undefined,
+    tableTotalWidth: number | undefined
+) => {
+    if (isFullWidth) {
+        return undefined;
+    }
+
+    if (fixedWidth !== undefined) {
+        return fixedWidth;
+    }
+
+    return tableTotalWidth;
+};
 
 export const Table = <TData extends RowData>(props: ITableProps<TData>) => {
     const table = useReactTable({
@@ -29,22 +45,27 @@ export const Table = <TData extends RowData>(props: ITableProps<TData>) => {
         getCoreRowModel: getCoreRowModel(),
     });
 
+    const hasFixedWidth = props.width !== undefined;
+    const isFullWidth = !hasFixedWidth && !!props.fullWidth;
+
     const [tableTotalWidth, setTableWidth] = useState<number | undefined>(
         () => {
-            if (props.fullWidth) {
-                return undefined;
+            if (hasFixedWidth) {
+                return props.width;
             }
 
-            if (props.width) {
-                return props.width;
+            if (isFullWidth) {
+                return undefined;
             }
 
             return table.getTotalSize();
         }
     );
 
+    const shouldObserveWidth = isFullWidth || hasFixedWidth;
+
     const setObserver = useResizeObserver({
-        enable: !!props.fullWidth,
+        enable: shouldObserveWidth,
         callback: ({ contentRect }) => {
             const width = Math.round(contentRect.width);
 
@@ -55,17 +76,18 @@ export const Table = <TData extends RowData>(props: ITableProps<TData>) => {
     });
 
     const adapter = useGridTableAdapter(table, tableTotalWidth);
+    const rootWidth = getRootWidth(isFullWidth, props.width, tableTotalWidth);
 
     return (
         <TableRoot
-            totalSize={tableTotalWidth}
+            width={rootWidth}
             appearance={props.appearance}
-            size={props.size}
+            density={props.density}
             rowHeight={props.rowHeight}
             className={props.className}
             header={props.header}
             footer={props.footer}
-            gridTemplateColumns={adapter.gridTemplateColumns}
+            columnSizes={adapter.columnSizes}
             headerRows={adapter.headerRows}
             rows={adapter.rows}
             ref={setObserver}

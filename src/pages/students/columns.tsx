@@ -24,21 +24,14 @@ export const createColumns = ({ onToggleStudent }: ICreateColumnsParams) => {
         }),
         helper.accessor("item.name", {
             cell: (ctx) => <TextCell value={ctx.getValue()} />,
-            meta: {
-                grow: 1,
-            },
         }),
         helper.accessor("item.notes", {
             cell: (ctx) => <TextCell value={ctx.getValue()} />,
-            meta: {
-                grow: 1,
-            },
         }),
         helper.accessor("item.contact", {
             cell: (ctx) => <TextCell value={ctx.getValue()} />,
-            meta: {
-                grow: 1,
-            },
+
+            size: 700,
         }),
     ];
 };

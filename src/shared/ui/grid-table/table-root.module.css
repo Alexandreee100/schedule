@@ -4,7 +4,7 @@
     --table-cell-padding: var(--space-2);
     --table-header-background: transparent;
 
-    width: 100%;
+    box-sizing: content-box;
 
     &.surface {
         --table-header-background: var(--gray-3);

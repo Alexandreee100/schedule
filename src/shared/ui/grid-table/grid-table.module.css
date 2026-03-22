@@ -1,9 +1,6 @@
 .base {
     --row-height: auto;
 
-    min-width: 100%;
-    width: max-content;
-
     &.dividers-inner > .row:not(:last-child) {
         border-bottom: 1px solid var(--table-row-divider-color);
     }
@@ -12,15 +9,15 @@
         border-bottom: 1px solid var(--table-row-divider-color);
     }
 
-    &.space-1 {
+    &.density-1 {
         --table-cell-padding: var(--space-1);
     }
 
-    &.space-2 {
+    &.density-2 {
         --table-cell-padding: var(--space-2);
     }
 
-    &.space-3 {
+    &.density-3 {
         --table-cell-padding: var(--space-3);
     }
 }

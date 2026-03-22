@@ -24,49 +24,47 @@ type TablePanelVariantsProps = VariantProps<typeof tableRootVariants>;
 
 export interface ITableRootProps
     extends
-        Omit<IGridTableProps, "className" | "size" | "dividers">,
+        Omit<IGridTableProps, "className" | "density" | "dividers">,
         TablePanelVariantsProps {
     header?: ReactNode;
     footer?: ReactNode;
-    size?: GridTableVariantsProps["size"];
-    totalSize?: number;
+    density?: GridTableVariantsProps["density"];
     className?: string;
+    width?: number;
 }
 
 export const TableRoot = forwardRef<HTMLDivElement, ITableRootProps>(
     (
         {
+            width,
             header,
             footer,
             appearance,
-            size,
+            density,
             className,
-            totalSize,
-            gridTemplateColumns,
+            columnSizes,
             ...gridProps
         },
         ref
     ) => {
         const dividers = appearance === "ghost" ? "all" : "inner";
-
-        const width = `${totalSize}px`;
+        const rootWidth = width !== undefined ? `${width}px` : undefined;
 
         return (
             <Flex
-                width={width}
-                direction="column"
+                width={rootWidth}
                 className={tableRootVariants({
                     appearance,
                     className,
                 })}
-                ref={ref}
+                direction="column"
             >
                 {header}
-                <Box className={styles.tableViewport}>
-                    {gridTemplateColumns && (
+                <Box className={styles.tableViewport} ref={ref}>
+                    {columnSizes && columnSizes.length > 0 && (
                         <GridTable
-                            gridTemplateColumns={gridTemplateColumns}
-                            size={size}
+                            columnSizes={columnSizes}
+                            density={density}
                             dividers={dividers}
                             {...gridProps}
                         />

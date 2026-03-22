@@ -6,10 +6,10 @@ import { cva, type VariantProps } from "class-variance-authority";
 
 const gridVariants = cva([styles.base], {
     variants: {
-        size: {
-            1: styles.space1,
-            2: styles.space2,
-            3: styles.space3,
+        density: {
+            1: styles.density1,
+            2: styles.density2,
+            3: styles.density3,
         },
         dividers: {
             inner: styles.dividersInner,
@@ -17,7 +17,7 @@ const gridVariants = cva([styles.base], {
         },
     },
     defaultVariants: {
-        size: 2,
+        density: 2,
         dividers: "inner",
     },
 });
@@ -36,7 +36,7 @@ export interface IRowGridTable {
 }
 
 export interface IGridTableProps extends GridTableVariantsProps {
-    gridTemplateColumns?: string;
+    columnSizes: number[];
     headerRows: IRowGridTable[];
     rows: IRowGridTable[];
     rowHeight?: number;
@@ -46,12 +46,12 @@ export interface IGridTableProps extends GridTableVariantsProps {
 export const GridTable = forwardRef<HTMLDivElement, IGridTableProps>(
     (
         {
-            gridTemplateColumns,
+            columnSizes,
             rows,
             headerRows,
             rowHeight,
             className,
-            size,
+            density,
             dividers,
         },
         ref
@@ -61,10 +61,14 @@ export const GridTable = forwardRef<HTMLDivElement, IGridTableProps>(
                 ? { "--row-height": `${rowHeight}px` }
                 : undefined;
 
+        const gridTemplateColumns = columnSizes
+            .map((size) => `${size}px`)
+            .join(" ");
+
         return (
             <Grid
                 className={gridVariants({
-                    size,
+                    density,
                     dividers,
                     className,
                 })}
