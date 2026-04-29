@@ -4,5 +4,10 @@
     "prepare": "git config core.hooksPath .git-hooks || echo \"There is not a git repo\"",
     "precommit": "lint-staged",
     "prepush": ""
+  },
+  "devDependencies": {
+    "prettier": "3.8.3",
+    "lint-staged": "16.4.0",
+    "turbo": "2.9.6"
   }
 }

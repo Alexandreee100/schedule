@@ -1,5 +1,5 @@
 import type { ServiceIdentifier } from "@freshgum/typedi";
-import { useRefFactory } from "../../../shared/hooks/use-ref-factory";
+import { useRefFactory } from "@/shared/hooks/use-ref-factory";
 
 import { useContainer } from "./use-container";
 
