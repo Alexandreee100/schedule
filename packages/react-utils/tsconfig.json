@@ -1,0 +1,11 @@
+{
+  "extends": ["@schedule/configs/tsconfig.base.json"],
+  "compilerOptions": {
+    "verbatimModuleSyntax": true,
+    "target": "es2023",
+    "moduleResolution": "bundler",
+    "lib": ["es2023", "DOM"],
+    "jsx": "react-jsx"
+  },
+  "include": ["src"]
+}

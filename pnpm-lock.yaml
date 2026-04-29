@@ -179,57 +179,35 @@ importers:
         version: 4.0.18(@types/node@25.6.0)(happy-dom@20.5.0)(yaml@2.8.3)
 
   packages/async:
+    dependencies:
+      '@schedule/core':
+        specifier: workspace:*
+        version: link:../core
     devDependencies:
       '@schedule/configs':
         specifier: workspace:*
         version: link:../configs
-      '@tanstack/query-core':
-        specifier: 5.96.2
-        version: 5.96.2
-      '@types/react':
-        specifier: ~18.3.0
-        version: 18.3.28
-      '@types/react-dom':
-        specifier: ~18.3.0
-        version: 18.3.7(@types/react@18.3.28)
       eslint:
         specifier: 9.39.3
         version: 9.39.3
       mobx:
         specifier: 6.12.5
         version: 6.12.5
-      mobx-react-lite:
-        specifier: 4.1.0
-        version: 4.1.0(mobx@6.12.5)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      mobx-tanstack-query:
-        specifier: 6.14.1
-        version: 6.14.1(@tanstack/query-core@5.96.2)(mobx@6.12.5)(react@18.3.1)
-      react:
-        specifier: 18.3.1
-        version: 18.3.1
-      react-dom:
-        specifier: 18.3.1
-        version: 18.3.1(react@18.3.1)
-      react-router:
-        specifier: 5.2.0
-        version: 5.2.0(react@18.3.1)
-      react-router-dom:
-        specifier: 5.2.0
-        version: 5.2.0(react@18.3.1)
       typescript:
         specifier: 5.8.3
         version: 5.8.3
 
   packages/configs: {}
 
-  packages/lib:
+  packages/core:
+    dependencies:
+      '@schedule/react-utils':
+        specifier: workspace:*
+        version: link:../react-utils
     devDependencies:
       '@schedule/configs':
         specifier: 'workspace:'
         version: link:../configs
-      '@tanstack/query-core':
-        specifier: 5.96.2
-        version: 5.96.2
       '@types/react':
         specifier: 'catalog:'
         version: 18.3.28
@@ -245,9 +223,61 @@ importers:
       mobx-react-lite:
         specifier: 4.1.0
         version: 4.1.0(mobx@6.12.5)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      react:
+        specifier: 'catalog:'
+        version: 18.3.1
+      react-dom:
+        specifier: 'catalog:'
+        version: 18.3.1(react@18.3.1)
+      typescript:
+        specifier: 'catalog:'
+        version: 5.9.3
+
+  packages/mobx-query:
+    dependencies:
+      '@schedule/react-utils':
+        specifier: workspace:*
+        version: link:../react-utils
+      '@tanstack/query-core':
+        specifier: 5.96.2
+        version: 5.96.2
       mobx-tanstack-query:
         specifier: 6.14.1
-        version: 6.14.1(@tanstack/query-core@5.96.2)(mobx@6.12.5)(react@18.3.1)
+        version: 6.14.1(@tanstack/query-core@5.96.2)(mobx@6.13.7)(react@18.3.1)
+    devDependencies:
+      '@schedule/configs':
+        specifier: 'workspace:'
+        version: link:../configs
+      '@types/react':
+        specifier: 'catalog:'
+        version: 18.3.28
+      '@types/react-dom':
+        specifier: 'catalog:'
+        version: 18.3.7(@types/react@18.3.28)
+      eslint:
+        specifier: 9.39.3
+        version: 9.39.3
+      react:
+        specifier: 'catalog:'
+        version: 18.3.1
+      react-dom:
+        specifier: 'catalog:'
+        version: 18.3.1(react@18.3.1)
+
+  packages/react-utils:
+    devDependencies:
+      '@schedule/configs':
+        specifier: 'workspace:'
+        version: link:../configs
+      '@types/react':
+        specifier: 'catalog:'
+        version: 18.3.28
+      '@types/react-dom':
+        specifier: 'catalog:'
+        version: 18.3.7(@types/react@18.3.28)
+      eslint:
+        specifier: 9.39.3
+        version: 9.39.3
       react:
         specifier: 'catalog:'
         version: 18.3.1
@@ -412,10 +442,6 @@ packages:
     engines: {node: '>=6.9.0'}
     peerDependencies:
       '@babel/core': ^7.0.0-0
-
-  '@babel/runtime@7.29.2':
-    resolution: {integrity: sha512-JiDShH45zKHWyGe4ZNVRrCjBz8Nh9TMmZG1kh4QTK8hCBTWBi8Da+i7s1fJw7/lYpM4ccepSNfqzZ/QvABBi5g==}
-    engines: {node: '>=6.9.0'}
 
   '@babel/template@7.28.6':
     resolution: {integrity: sha512-YA6Ma2KsCdGb+WC6UpBVFJGXL58MDA6oyONbjyF/+5sBgxY/dwkhLogbMT2GXXyU84/IhRw/2D1Os1B/giz+BQ==}
@@ -2427,12 +2453,6 @@ packages:
   hermes-parser@0.25.1:
     resolution: {integrity: sha512-6pEjquH3rqaI6cYAXYPcz9MS4rY6R4ngRgrgfDshRptUZIc3lw0MCIJIGDj9++mfySOuPTHB4nrSW99BCvOPIA==}
 
-  history@4.10.1:
-    resolution: {integrity: sha512-36nwAD620w12kuzPAsyINPWJqlNbij+hpK1k9XRloDtym8mxzGYl2c17LnV6IAGB2Dmg4tEa7G7DlawS0+qjew==}
-
-  hoist-non-react-statics@3.3.2:
-    resolution: {integrity: sha512-/gGivxi8JPKWNm/W0jSmzcMPpfpPLc3dY/6GxhX2hQ9iGj3aDfklV4ET7NjKpSinLpJ5vafa9iiGIEZg10SfBw==}
-
   ignore@5.3.2:
     resolution: {integrity: sha512-hsBTNUqQTDwkWtcdYI2i06Y/nUBEsNEDJKjWdigLvegy8kDuJAS8uRlpkkcQpyEXL0Z/pjDy5HBmMjRCJ2gq+g==}
     engines: {node: '>= 4'}
@@ -2560,9 +2580,6 @@ packages:
     resolution: {integrity: sha512-mfcwb6IzQyOKTs84CQMrOwW4gQcaTOAWJ0zzJCl2WSPDrWk/OzDaImWFH3djXhb24g4eudZfLRozAvPGw4d9hQ==}
     engines: {node: '>= 0.4'}
 
-  isarray@0.0.1:
-    resolution: {integrity: sha512-D2S+3GLxWH+uhrNEcoh/fnmYeP8E8/zHl644d/jdA0g2uyXvy3sb0qxotE+ne0LtccHknQzWwZEzhak7oJ0COQ==}
-
   isarray@2.0.5:
     resolution: {integrity: sha512-xHjhDr3cNBK0BzdUJSPXZntQUx/mwMS5Rw4A7lPJ90XGAO6ISP/ePDNuo0vhqOZU+UD5JoodwCAAoZQd3FeAKw==}
 
@@ -2680,13 +2697,6 @@ packages:
   mimic-function@5.0.1:
     resolution: {integrity: sha512-VP79XUPxV2CigYP3jWwAUFSku2aKqBH7uTAapFWCBqutsbmDo96KY5o8uh6U+/YSIn5OxJnXp73beVkpqMIGhA==}
     engines: {node: '>=18'}
-
-  mini-create-react-context@0.4.1:
-    resolution: {integrity: sha512-YWCYEmd5CQeHGSAKrYvXgmzzkrvssZcuuQDDeqkT+PziKGMgE+0MCCtcKbROzocGBG1meBLl2FotlRwf4gAzbQ==}
-    deprecated: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.
-    peerDependencies:
-      prop-types: ^15.0.0
-      react: ^0.14.0 || ^15.0.0 || ^16.0.0 || ^17.0.0
 
   minimatch@10.2.5:
     resolution: {integrity: sha512-MULkVLfKGYDFYejP07QOurDLLQpcjk7Fw+7jXS2R2czRQzR56yHRveU5NDJEOviH+hETZKSkIk5c+T23GjFUMg==}
@@ -2843,9 +2853,6 @@ packages:
     resolution: {integrity: sha512-3O/iVVsJAPsOnpwWIeD+d6z/7PmqApyQePUtCndjatj/9I5LylHvt5qluFaBT3I5h3r1ejfR056c+FCv+NnNXg==}
     engines: {node: 18 || 20 || >=22}
 
-  path-to-regexp@1.9.0:
-    resolution: {integrity: sha512-xIp7/apCFJuUHdDLWe8O1HIkb0kQrOMb/0u6FXQjemHn/ii5LrIzU6bdECnsiTF/GjZkMEKg1xdiZwNqDYlZ6g==}
-
   path-type@4.0.0:
     resolution: {integrity: sha512-gDKb8aZMDeD/tZWs9P6+q0J9Mwkdl6xMV8TjnGP3qJVJ06bdMgkbBlLU8IdfOsIsFz2BW1rNVT3XuNEl8zPAvw==}
     engines: {node: '>=8'}
@@ -2965,16 +2972,6 @@ packages:
       '@types/react':
         optional: true
 
-  react-router-dom@5.2.0:
-    resolution: {integrity: sha512-gxAmfylo2QUjcwxI63RhQ5G85Qqt4voZpUXSEqCwykV0baaOTQDR1f0PmY8AELqIyVc0NEZUj0Gov5lNGcXgsA==}
-    peerDependencies:
-      react: '>=15'
-
-  react-router@5.2.0:
-    resolution: {integrity: sha512-smz1DUuFHRKdcJC0jobGo8cVbhO3x50tCL4icacOlcwDOEQPq4TMqwx3sY1TP+DvtTgz4nm3thuo7A+BK2U0Dw==}
-    peerDependencies:
-      react: '>=15'
-
   react-style-singleton@2.2.3:
     resolution: {integrity: sha512-b6jSvxvVnyptAiLjbkWLE/lOnR4lfTtDAl+eUC7RZy+QQWc6wRzIV2CE6xBuMmDxc2qIihtDCZD5NPOFl7fRBQ==}
     engines: {node: '>=10'}
@@ -3004,9 +3001,6 @@ packages:
   resolve-from@4.0.0:
     resolution: {integrity: sha512-pb/MYmXstAkysRFx8piNI1tGFNQIFA3vkE3Gq4EuA1dF6gHp/+vgZqsCGJapvy8N3Q+4o7FwvquPJcnZ7RYy4g==}
     engines: {node: '>=4'}
-
-  resolve-pathname@3.0.0:
-    resolution: {integrity: sha512-C7rARubxI8bXFNB/hqcp/4iUeIXJhJZvFPFPiSPRnhU5UPxzMFIl+2E6yY6c4k9giDJAhtV+enfA+G89N6Csng==}
 
   resolve@2.0.0-next.6:
     resolution: {integrity: sha512-3JmVl5hMGtJ3kMmB3zi3DL25KfkCEyy3Tw7Gmw7z5w8M9WlwoPFnIvwChzu1+cF3iaK3sp18hhPz8ANeimdJfA==}
@@ -3189,9 +3183,6 @@ packages:
   tiny-invariant@1.3.3:
     resolution: {integrity: sha512-+FbBPE1o9QAYvviau/qC5SE3caw21q3xkvWKBtja5vgqOWIHHJ3ioaq1VPfn/Szqctz2bU/oYeKd9/z5BL+PVg==}
 
-  tiny-warning@1.0.3:
-    resolution: {integrity: sha512-lBN9zLN/oAf68o3zNXYrdCt1kP8WsiGW8Oo2ka41b2IM5JL/S1CTyX1rW0mb/zSuJun0ZUrDxx4sqvYS2FWzPA==}
-
   tinybench@2.9.0:
     resolution: {integrity: sha512-0+DUvqWMValLmha6lr4kD8iAMK1HzV0/aKnCtWb9v9641TnP/MFb7Pc2bxoxQjTXAErryXVgUOfv2YqNllqGeg==}
 
@@ -3326,9 +3317,6 @@ packages:
 
   util-deprecate@1.0.2:
     resolution: {integrity: sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==}
-
-  value-equal@1.0.1:
-    resolution: {integrity: sha512-NOJ6JZCAWr0zlxZt+xqCHNTEKOsrks2HQd4MqhP1qy4z1SkbEP467eNx6TgDKXMvUOb+OENfJCZwM+16n7fRfw==}
 
   vite-plugin-babel@1.5.1:
     resolution: {integrity: sha512-TBBBsAYYg7V5yR+xPeZYHwritMmc2QvZrZKFSS26it7ZQ0Y8ESKwJJm2KUUcmHQZU/owvA4yKk4ibPVrfhlwJw==}
@@ -3746,8 +3734,6 @@ snapshots:
       '@babel/plugin-transform-typescript': 7.28.6(@babel/core@7.29.0)
     transitivePeerDependencies:
       - supports-color
-
-  '@babel/runtime@7.29.2': {}
 
   '@babel/template@7.28.6':
     dependencies:
@@ -5895,19 +5881,6 @@ snapshots:
     dependencies:
       hermes-estree: 0.25.1
 
-  history@4.10.1:
-    dependencies:
-      '@babel/runtime': 7.29.2
-      loose-envify: 1.4.0
-      resolve-pathname: 3.0.0
-      tiny-invariant: 1.3.3
-      tiny-warning: 1.0.3
-      value-equal: 1.0.1
-
-  hoist-non-react-statics@3.3.2:
-    dependencies:
-      react-is: 16.13.1
-
   ignore@5.3.2: {}
 
   ignore@7.0.5: {}
@@ -6039,8 +6012,6 @@ snapshots:
       call-bound: 1.0.4
       get-intrinsic: 1.3.0
 
-  isarray@0.0.1: {}
-
   isarray@2.0.5: {}
 
   isexe@2.0.0: {}
@@ -6167,13 +6138,6 @@ snapshots:
 
   mimic-function@5.0.1: {}
 
-  mini-create-react-context@0.4.1(prop-types@15.8.1)(react@18.3.1):
-    dependencies:
-      '@babel/runtime': 7.29.2
-      prop-types: 15.8.1
-      react: 18.3.1
-      tiny-warning: 1.0.3
-
   minimatch@10.2.5:
     dependencies:
       brace-expansion: 5.0.5
@@ -6204,12 +6168,12 @@ snapshots:
     optionalDependencies:
       react-dom: 18.3.1(react@18.3.1)
 
-  mobx-tanstack-query@6.14.1(@tanstack/query-core@5.96.2)(mobx@6.12.5)(react@18.3.1):
+  mobx-tanstack-query@6.14.1(@tanstack/query-core@5.96.2)(mobx@6.13.7)(react@18.3.1):
     dependencies:
       '@tanstack/query-core': 5.96.2
       linked-abort-controller: 1.1.1
-      mobx: 6.12.5
-      yummies: 7.19.4(mobx@6.12.5)(react@18.3.1)
+      mobx: 6.13.7
+      yummies: 7.19.4(mobx@6.13.7)(react@18.3.1)
     transitivePeerDependencies:
       - react
 
@@ -6336,10 +6300,6 @@ snapshots:
     dependencies:
       lru-cache: 11.3.5
       minipass: 7.1.3
-
-  path-to-regexp@1.9.0:
-    dependencies:
-      isarray: 0.0.1
 
   path-type@4.0.0: {}
 
@@ -6489,31 +6449,6 @@ snapshots:
     optionalDependencies:
       '@types/react': 18.3.28
 
-  react-router-dom@5.2.0(react@18.3.1):
-    dependencies:
-      '@babel/runtime': 7.29.2
-      history: 4.10.1
-      loose-envify: 1.4.0
-      prop-types: 15.8.1
-      react: 18.3.1
-      react-router: 5.2.0(react@18.3.1)
-      tiny-invariant: 1.3.3
-      tiny-warning: 1.0.3
-
-  react-router@5.2.0(react@18.3.1):
-    dependencies:
-      '@babel/runtime': 7.29.2
-      history: 4.10.1
-      hoist-non-react-statics: 3.3.2
-      loose-envify: 1.4.0
-      mini-create-react-context: 0.4.1(prop-types@15.8.1)(react@18.3.1)
-      path-to-regexp: 1.9.0
-      prop-types: 15.8.1
-      react: 18.3.1
-      react-is: 16.13.1
-      tiny-invariant: 1.3.3
-      tiny-warning: 1.0.3
-
   react-style-singleton@2.2.3(@types/react@18.3.28)(react@18.3.1):
     dependencies:
       get-nonce: 1.0.1
@@ -6549,8 +6484,6 @@ snapshots:
       set-function-name: 2.0.2
 
   resolve-from@4.0.0: {}
-
-  resolve-pathname@3.0.0: {}
 
   resolve@2.0.0-next.6:
     dependencies:
@@ -6800,8 +6733,6 @@ snapshots:
 
   tiny-invariant@1.3.3: {}
 
-  tiny-warning@1.0.3: {}
-
   tinybench@2.9.0: {}
 
   tinyexec@1.1.1: {}
@@ -6935,8 +6866,6 @@ snapshots:
       react: 18.3.1
 
   util-deprecate@1.0.2: {}
-
-  value-equal@1.0.1: {}
 
   vite-plugin-babel@1.5.1(@babel/core@7.29.0)(vite@7.3.1(@types/node@25.6.0)(yaml@2.8.3)):
     dependencies:
@@ -7101,7 +7030,7 @@ snapshots:
 
   yocto-queue@0.1.0: {}
 
-  yummies@7.19.4(mobx@6.12.5)(react@18.3.1):
+  yummies@7.19.4(mobx@6.13.7)(react@18.3.1):
     dependencies:
       class-variance-authority: 0.7.1
       clsx: 2.1.1
@@ -7110,7 +7039,7 @@ snapshots:
       nanoid: 5.1.9
       tailwind-merge: 3.5.0
     optionalDependencies:
-      mobx: 6.12.5
+      mobx: 6.13.7
       react: 18.3.1
 
   zod-validation-error@4.0.2(zod@4.3.6):

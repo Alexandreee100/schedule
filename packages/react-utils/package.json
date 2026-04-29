@@ -1,0 +1,24 @@
+{
+  "name": "@schedule/react-utils",
+  "version": "1.0.0",
+  "description": "",
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "default": "./src/index.ts"
+    }
+  },
+  "peerDependencies": {
+    "react": "catalog:",
+    "react-dom": "catalog:"
+  },
+  "devDependencies": {
+    "@schedule/configs": "workspace:",
+    "typescript": "catalog:",
+    "@types/react": "catalog:",
+    "@types/react-dom": "catalog:",
+    "eslint": "9.39.3",
+    "react": "catalog:",
+    "react-dom": "catalog:"
+  }
+}

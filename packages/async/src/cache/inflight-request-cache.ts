@@ -2,7 +2,7 @@ import type { RetryDelayValue, RetryValue } from "../request/request-controller"
 import { executeWithRetry } from "../utils/retryer";
 import type { SerializeRequestKeyFn } from "../utils/serialize-request-key";
 import type { RequestKey } from "../request/types";
-import { FactoryCache } from "@schedule/lib/cache";
+import { FactoryCache } from "@schedule/core/cache";
 
 interface IInFlightRequestCacheEntry {
     promise: Promise<unknown>;

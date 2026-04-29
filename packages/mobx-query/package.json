@@ -1,0 +1,28 @@
+{
+  "name": "@schedule/mobx-query",
+  "version": "1.0.0",
+  "description": "",
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "default": "./src/index.ts"
+    }
+  },
+  "peerDependencies": {
+    "react": "catalog:",
+    "react-dom": "catalog:"
+  },
+  "dependencies": {
+    "@tanstack/query-core": "5.96.2",
+    "mobx-tanstack-query": "6.14.1",
+    "@schedule/react-utils": "workspace:*"
+  },
+  "devDependencies": {
+    "react": "catalog:",
+    "react-dom": "catalog:",
+    "@types/react": "catalog:",
+    "@types/react-dom": "catalog:",
+    "eslint": "9.39.3",
+    "@schedule/configs": "workspace:"
+  }
+}

@@ -4,7 +4,8 @@ import { createMobxRequestStateStore } from "../adapters/mobx-request-state-stor
 import { CancelledError } from "../utils/race-with-abort";
 
 import type { RequestKey } from "./types";
-import { DisposableController } from "@schedule/lib/disposable-controller";
+import { DisposableController } from "@schedule/core/disposable-controller";
+
 
 export type EnabledOption = boolean | (() => boolean);
 export type PollIntervalOption = number | false | (() => number | false | undefined);
