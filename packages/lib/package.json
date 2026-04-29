@@ -3,13 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "exports": {
-    "./query": {
-      "types": "./src/query/index.ts",
-      "default": "./src/query/index.ts"
-    },
-    "./react": {
-      "types": "./src/react/index.ts",
-      "default": "./src/react/index.ts"
+    "./*": {
+      "types": "./src/*/index.ts",
+      "default": "./src/*/index.ts"
     }
   },
   "devDependencies": {

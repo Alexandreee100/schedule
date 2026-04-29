@@ -1,8 +1,8 @@
-import { FactoryCache } from "@asudd/lib/cache";
 import type { RetryDelayValue, RetryValue } from "../request/request-controller";
 import { executeWithRetry } from "../utils/retryer";
 import type { SerializeRequestKeyFn } from "../utils/serialize-request-key";
 import type { RequestKey } from "../request/types";
+import { FactoryCache } from "@schedule/lib/cache";
 
 interface IInFlightRequestCacheEntry {
     promise: Promise<unknown>;
