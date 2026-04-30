@@ -178,6 +178,15 @@ importers:
         specifier: 4.0.18
         version: 4.0.18(@types/node@25.6.0)(happy-dom@20.5.0)(yaml@2.8.3)
 
+  packages/api:
+    devDependencies:
+      '@schedule/configs':
+        specifier: workspace:*
+        version: link:../configs
+      typescript:
+        specifier: 'catalog:'
+        version: 5.9.3
+
   packages/async:
     dependencies:
       '@schedule/core':
@@ -201,9 +210,9 @@ importers:
 
   packages/core:
     dependencies:
-      '@schedule/react-utils':
+      '@schedule/react':
         specifier: workspace:*
-        version: link:../react-utils
+        version: link:../react
     devDependencies:
       '@schedule/configs':
         specifier: 'workspace:'
@@ -235,9 +244,9 @@ importers:
 
   packages/mobx-query:
     dependencies:
-      '@schedule/react-utils':
+      '@schedule/react':
         specifier: workspace:*
-        version: link:../react-utils
+        version: link:../react
       '@tanstack/query-core':
         specifier: 5.96.2
         version: 5.96.2
@@ -264,7 +273,7 @@ importers:
         specifier: 'catalog:'
         version: 18.3.1(react@18.3.1)
 
-  packages/react-utils:
+  packages/react:
     devDependencies:
       '@schedule/configs':
         specifier: 'workspace:'

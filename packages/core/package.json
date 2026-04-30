@@ -15,7 +15,7 @@
     "mobx-react-lite": "4.1.0"
   },
   "dependencies": {
-    "@schedule/react-utils": "workspace:*"
+    "@schedule/react": "workspace:*"
   },
   "devDependencies": {
     "@schedule/configs": "workspace:",

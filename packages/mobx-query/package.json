@@ -15,7 +15,7 @@
   "dependencies": {
     "@tanstack/query-core": "5.96.2",
     "mobx-tanstack-query": "6.14.1",
-    "@schedule/react-utils": "workspace:*"
+    "@schedule/react": "workspace:*"
   },
   "devDependencies": {
     "react": "catalog:",
