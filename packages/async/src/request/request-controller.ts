@@ -1,12 +1,9 @@
 import { InFlightRequestCache } from "../cache/inflight-request-cache";
+import type { IRequestPromiseProvider } from "./base-request-executor";
 import { serializeRequestKey, type SerializeRequestKeyFn } from "../utils/serialize-request-key";
 import { type IRequestStateStore, RequestExecutor } from "./request-executor";
 import { createIdleRequestState, createSuccessRequestState, type RequestState } from "./request-state";
 import type { RequestFn, RequestKey } from "./types";
-
-export interface IInFlightRequestProvider<TData> {
-    get(): { promise: Promise<TData>; unsubscribe: () => void };
-}
 export type PlaceholderDataFactory<TData> = (previousData: TData | undefined) => TData | undefined;
 export type PlaceholderDataOption<TData> = TData | PlaceholderDataFactory<TData> | undefined;
 
@@ -75,7 +72,7 @@ export class RequestController<TRequestKey extends RequestKey, TData> {
             this.requestStateStore.set(createIdleRequestState());
         }
 
-        const inFlightPromiseProvider: IInFlightRequestProvider<TData> = {
+        const inFlightPromiseProvider: IRequestPromiseProvider<TData> = {
             get: () =>
                 config.inFlightRequestCache.getOrCreate(requestKey, config.requestFn, {
                     retry: config.retry,
