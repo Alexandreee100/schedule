@@ -1,9 +1,12 @@
 import { InFlightRequestCache } from "../cache/inflight-request-cache";
-import type { IRequestPromiseProvider } from "./base-request-executor";
 import { serializeRequestKey, type SerializeRequestKeyFn } from "../utils/serialize-request-key";
 import { type IRequestStateStore, RequestExecutor } from "./request-executor";
-import { createIdleRequestState, createSuccessRequestState, type RequestState } from "./request-state";
-import type { RequestFn, RequestKey } from "./types";
+import { type RequestState } from "./request-state";
+import type { RequestData, RequestFn, RequestKey } from "./types";
+
+export interface IInFlightRequestProvider<TData> {
+    get(): { promise: Promise<TData>; unsubscribe: () => void };
+}
 export type PlaceholderDataFactory<TData> = (previousData: TData | undefined) => TData | undefined;
 export type PlaceholderDataOption<TData> = TData | PlaceholderDataFactory<TData> | undefined;
 
@@ -13,18 +16,19 @@ export type RetryDelayValue = number | ((failureCount: number, error: unknown) =
 const isPlaceholderFactory = <TData>(value: PlaceholderDataOption<TData>): value is PlaceholderDataFactory<TData> =>
     typeof value === "function";
 
-export interface IRequestControllerConfig<TRequestKey extends RequestKey, TData> {
+export interface IRequestControllerConfig<TRequestKey extends RequestKey, TData extends RequestData> {
     requestKey: () => TRequestKey;
     inFlightRequestCache: InFlightRequestCache;
     requestFn: RequestFn<TRequestKey, TData>;
     createRequestStateStore: (initialState: RequestState<TData>) => IRequestStateStore<TData>;
     serializeRequestKey?: SerializeRequestKeyFn;
     placeholderData?: PlaceholderDataOption<TData>;
+    initialData?: TData;
     retry?: RetryValue;
     retryDelay?: RetryDelayValue;
 }
 
-export class RequestController<TRequestKey extends RequestKey, TData> {
+export class RequestController<TRequestKey extends RequestKey, TData extends RequestData> {
     private requestRun: RequestExecutor<TData> | undefined;
     private serializedKey: string | undefined;
 
@@ -33,7 +37,25 @@ export class RequestController<TRequestKey extends RequestKey, TData> {
 
     constructor(config: IRequestControllerConfig<TRequestKey, TData>) {
         this.config = { serializeRequestKey: serializeRequestKey, ...config };
-        this.requestStateStore = config.createRequestStateStore(createIdleRequestState());
+        const initialState: RequestState<TData> =
+            config.initialData !== undefined
+                ? {
+                      status: "success",
+                      requestStatus: "idle",
+                      data: config.initialData,
+                      error: undefined,
+                      isPlaceholderData: false,
+                      dataUpdatedAt: 0,
+                  }
+                : {
+                      status: "pending",
+                      requestStatus: "idle",
+                      data: undefined,
+                      error: undefined,
+                      isPlaceholderData: false,
+                      dataUpdatedAt: 0,
+                  };
+        this.requestStateStore = config.createRequestStateStore(initialState);
     }
 
     public get state() {
@@ -55,24 +77,41 @@ export class RequestController<TRequestKey extends RequestKey, TData> {
         const requestKey = config.requestKey();
         const serializedKey = config.serializeRequestKey(requestKey);
 
+        const isKeyChanged = this.serializedKey !== undefined && this.serializedKey !== serializedKey;
+
         if (this.requestRun) {
-            if (this.serializedKey === serializedKey) {
+            if (!isKeyChanged) {
                 return this.requestRun;
             }
 
             this.requestRun.cancel();
         }
 
-        const prevState = this.requestStateStore.get();
-        const data = this.resolvePlaceholderData(this.config.placeholderData, prevState.data);
+        if (isKeyChanged) {
+            this.requestStateStore.set((prevState) => {
+                const data = this.resolvePlaceholderData(this.config.placeholderData, prevState.data);
 
-        if (data !== undefined) {
-            this.requestStateStore.set(createSuccessRequestState(data, true));
-        } else {
-            this.requestStateStore.set(createIdleRequestState());
+                return data !== undefined
+                    ? {
+                          status: "success",
+                          requestStatus: "idle",
+                          data,
+                          error: undefined,
+                          isPlaceholderData: true,
+                          dataUpdatedAt: prevState.dataUpdatedAt,
+                      }
+                    : {
+                          status: "pending",
+                          requestStatus: "idle",
+                          data: undefined,
+                          error: undefined,
+                          isPlaceholderData: false,
+                          dataUpdatedAt: prevState.dataUpdatedAt,
+                      };
+            });
         }
 
-        const inFlightPromiseProvider: IRequestPromiseProvider<TData> = {
+        const inFlightPromiseProvider: IInFlightRequestProvider<TData> = {
             get: () =>
                 config.inFlightRequestCache.getOrCreate(requestKey, config.requestFn, {
                     retry: config.retry,
@@ -80,10 +119,11 @@ export class RequestController<TRequestKey extends RequestKey, TData> {
                 }),
         };
 
-        this.requestRun = new RequestExecutor(this.requestStateStore, inFlightPromiseProvider);
+        const requestRun = new RequestExecutor(this.requestStateStore, inFlightPromiseProvider);
+        this.requestRun = requestRun;
         this.serializedKey = serializedKey;
 
-        return this.requestRun;
+        return requestRun;
     }
 
     private resolvePlaceholderData<TData>(

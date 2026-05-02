@@ -6,16 +6,23 @@ import {
 } from "./request/request-controller";
 import { createRequestClient as createRequestClientBase } from "./request/request-client";
 import { InFlightRequestCache } from "./cache/inflight-request-cache";
-import { ObservableRequest, type EnabledOption, type PollIntervalOption } from "./request/observable-request";
+import {
+    type IDefinedObservableRequest,
+    type IObservableRequest,
+    ObservableRequest,
+    type EnabledOption,
+    type PollIntervalOption,
+} from "./request/observable-request";
 import { createMobxMutationStateStore } from "./adapters/mobx-mutation-state-store";
 import { ObservableMutation, type ObservableMutationConfig } from "./mutation/observable-mutation";
 import { serializeRequestKey } from "./utils/serialize-request-key";
-import type { RequestKey } from "./request/types";
+import type { RequestData, RequestKey } from "./request/types";
 
-export type CreateObservableRequestConfig<TRequestKey extends RequestKey, TData> = {
+export type CreateObservableRequestConfig<TRequestKey extends RequestKey, TData extends RequestData> = {
     requestKey: () => TRequestKey;
     requestFn: IRequestControllerConfig<TRequestKey, TData>["requestFn"];
     placeholderData?: PlaceholderDataOption<TData>;
+    initialData?: TData;
     retry?: RetryValue;
     retryDelay?: RetryDelayValue;
     enableOnDemand?: boolean;
@@ -46,15 +53,21 @@ export const createAsyncApi = () => {
         });
     };
 
-    const createObservableRequest = <TRequestKey extends RequestKey, TData>(
+    function createObservableRequest<TRequestKey extends RequestKey, TData extends RequestData>(
+        config: CreateObservableRequestConfig<TRequestKey, TData> & { initialData: TData }
+    ): IDefinedObservableRequest<TData>;
+    function createObservableRequest<TRequestKey extends RequestKey, TData extends RequestData>(
         config: CreateObservableRequestConfig<TRequestKey, TData>
-    ) => {
+    ): IObservableRequest<TData>;
+    function createObservableRequest<TRequestKey extends RequestKey, TData extends RequestData>(
+        config: CreateObservableRequestConfig<TRequestKey, TData>
+    ) {
         return new ObservableRequest({
             ...config,
             inFlightRequestCache,
             serializeRequestKey,
         });
-    };
+    }
 
     const createObservableAsyncTask = <TRequestKey extends RequestKey>(
         config: CreateObservableAsyncTaskConfig<TRequestKey>

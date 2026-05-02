@@ -1,13 +1,17 @@
-import { createErrorRequestState, createSuccessRequestState, type RequestState } from "./request-state";
-import { BaseRequestExecutor, type IRequestPromiseProvider } from "./base-request-executor";
+import { type RequestState } from "./request-state";
 import type { IStateStore } from "../utils/create-state-store";
+import type { RequestData } from "./types";
+import { BaseRequestExecutor, type IRequestPromiseProvider } from "./base-request-executor";
 
-export type IRequestStateStore<TData> = Omit<IStateStore<RequestState<TData>>, "state">;
+export type IRequestStateStore<TData extends RequestData> = Omit<IStateStore<RequestState<TData>>, "state">;
 
-export class RequestExecutor<TData> {
+export class RequestExecutor<TData extends RequestData> {
     private readonly baseRequestExecutor: BaseRequestExecutor<TData>;
 
-    constructor(private readonly stateStore: IRequestStateStore<TData>, inFlightPromiseProvider: IRequestPromiseProvider<TData>) {
+    constructor(
+        private readonly stateStore: IRequestStateStore<TData>,
+        inFlightPromiseProvider: IRequestPromiseProvider<TData>
+    ) {
         this.baseRequestExecutor = new BaseRequestExecutor(inFlightPromiseProvider, {
             onStart: () => {
                 this.stateStore.set((prevState) => ({
@@ -16,10 +20,25 @@ export class RequestExecutor<TData> {
                 }));
             },
             onSuccess: (data) => {
-                this.stateStore.set(createSuccessRequestState(data, false));
+                this.stateStore.set({
+                    status: "success",
+                    requestStatus: "idle",
+                    data,
+                    error: undefined,
+                    isPlaceholderData: false,
+                    dataUpdatedAt: Date.now(),
+                });
             },
             onError: (error) => {
-                this.stateStore.set((prevState) => createErrorRequestState(error, prevState.data));
+                this.stateStore.set((prevState) => {
+                    return {
+                        ...prevState,
+                        status: "error",
+                        requestStatus: "idle",
+                        error,
+                        isPlaceholderData: false,
+                    };
+                });
             },
             onCancel: () => {
                 this.stateStore.set((prevState) => ({ ...prevState, requestStatus: "idle" }));

@@ -1,16 +1,16 @@
+import { DisposableController } from "@asudd/lib/disposable-controller";
 import { comparer, reaction } from "mobx";
 import { type IRequestControllerConfig, RequestController } from "./request-controller";
 import { createMobxRequestStateStore } from "../adapters/mobx-request-state-store";
 import { CancelledError } from "../utils/race-with-abort";
+import type { RequestState } from "./request-state";
 
-import type { RequestKey } from "./types";
-import { DisposableController } from "@schedule/core/disposable-controller";
-
+import type { RequestData, RequestKey } from "./types";
 
 export type EnabledOption = boolean | (() => boolean);
 export type PollIntervalOption = number | false | (() => number | false | undefined);
 
-export type ObservableRequestConfig<TRequestKey extends RequestKey, TData> = Omit<
+export type ObservableRequestConfig<TRequestKey extends RequestKey, TData extends RequestData> = Omit<
     IRequestControllerConfig<TRequestKey, TData>,
     "createRequestStateStore"
 > & {
@@ -19,7 +19,28 @@ export type ObservableRequestConfig<TRequestKey extends RequestKey, TData> = Omi
     pollInterval?: PollIntervalOption;
 };
 
-export class ObservableRequest<TRequestKey extends RequestKey, TData> {
+export interface IObservableRequest<TData extends RequestData> {
+    readonly state: RequestState<TData>;
+    readonly isSuccessful: boolean;
+    readonly isError: boolean;
+    readonly isPending: boolean;
+    readonly requestStatus: RequestState<TData>["requestStatus"];
+    readonly isIdle: boolean;
+    readonly isPlaceholderData: boolean;
+    readonly isRequesting: boolean;
+    readonly error: unknown;
+    readonly data: TData | undefined;
+    readonly dataUpdatedAt: number;
+    request(): Promise<TData>;
+    cancel(): void;
+    destroy(): void;
+}
+
+export interface IDefinedObservableRequest<TData extends RequestData> extends Omit<IObservableRequest<TData>, "data"> {
+    readonly data: TData;
+}
+
+export class ObservableRequest<TRequestKey extends RequestKey, TData extends RequestData> {
     private readonly requestController: RequestController<TRequestKey, TData>;
     private readonly reactionDisposers = new DisposableController();
 
@@ -99,6 +120,10 @@ export class ObservableRequest<TRequestKey extends RequestKey, TData> {
             this.subscribe();
         }
         return this.requestController.state;
+    }
+
+    public get dataUpdatedAt() {
+        return this.state.dataUpdatedAt;
     }
 
     public get isSuccessful() {

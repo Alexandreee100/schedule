@@ -1,18 +1,19 @@
 import { CancelledError, raceWithAbort } from "../utils/race-with-abort";
+import type { RequestData } from "./types";
 
 
-export interface IRequestPromiseProvider<TData> {
+export interface IRequestPromiseProvider<TData extends RequestData> {
     get(): { promise: Promise<TData>; unsubscribe: () => void };
 }
 
-export interface IBaseRequestExecutorHandlers<TData> {
+export interface IBaseRequestExecutorHandlers<TData extends RequestData> {
     onStart?: () => void;
     onSuccess?: (data: TData) => void;
     onError?: (error: unknown) => void;
     onCancel?: () => void;
 }
 
-export class BaseRequestExecutor<TData> {
+export class BaseRequestExecutor<TData extends RequestData> {
     private token: symbol | undefined = undefined;
     private promise: Promise<TData> | undefined = undefined;
     private abortController: AbortController | undefined = undefined;

@@ -1,54 +1,33 @@
 type RequestStatus = "idle" | "requesting";
+import type { RequestData } from "./types";
 
-interface IIdleRequestState {
-    status: "pending";
+interface IRequestStateBase {
     requestStatus: RequestStatus;
+    dataUpdatedAt: number;
+}
+
+interface IIdleRequestState extends IRequestStateBase {
+    status: "pending";
     data: undefined;
     error: undefined;
     isPlaceholderData: false;
 }
 
-interface IErrorRequestState<TData> {
+interface IErrorRequestState<TData> extends IRequestStateBase {
     status: "error";
-    requestStatus: RequestStatus;
     data: TData | undefined;
     error: unknown;
     isPlaceholderData: false;
 }
 
-interface ISuccessRequestState<TData> {
+interface ISuccessRequestState<TData> extends IRequestStateBase {
     status: "success";
-    requestStatus: RequestStatus;
     data: TData;
     error: undefined;
     isPlaceholderData: boolean;
 }
 
-export type RequestState<TData> = IIdleRequestState | ISuccessRequestState<TData> | IErrorRequestState<TData>;
-
-export const createIdleRequestState = <TData>(): RequestState<TData> => ({
-    status: "pending",
-    requestStatus: "idle",
-    data: undefined,
-    error: undefined,
-    isPlaceholderData: false,
-});
-
-export const createSuccessRequestState = <TData>(
-    data: TData,
-    isPlaceholderData: boolean = false
-): RequestState<TData> => ({
-    status: "success",
-    requestStatus: "idle",
-    data,
-    error: undefined,
-    isPlaceholderData,
-});
-
-export const createErrorRequestState = <TData>(error: unknown, data?: TData): RequestState<TData> => ({
-    status: "error",
-    requestStatus: "idle",
-    data,
-    error,
-    isPlaceholderData: false,
-});
+export type RequestState<TData extends RequestData> =
+    | IIdleRequestState
+    | ISuccessRequestState<TData>
+    | IErrorRequestState<TData>;
