@@ -1,9 +1,9 @@
 import { ViewModel } from "@/core/view-model/view-model";
 import { action, computed, makeObservable, observable } from "mobx";
-import type { IStudent, IStudentTableDTO } from "./types";
+import type { IStudentTableDTO } from "./types";
 import { createColumns } from "./columns";
 import { studentsMocks } from "./students.mocks";
-import { createObservableRequest } from "@/core/async";
+import { createObservableResource } from "@/core/async";
 
 export class StudentsViewModel extends ViewModel {
     public selectedStudents = observable.set<string>();
@@ -20,7 +20,7 @@ export class StudentsViewModel extends ViewModel {
             toggleStudent: action.bound,
         });
 
-        this.studentsRequest = createObservableRequest({
+        this.studentsRequest = createObservableResource({
             requestKey: () => ["students"],
             requestFn: async () => {
                 return studentsMocks;

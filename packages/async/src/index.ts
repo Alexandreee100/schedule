@@ -1,18 +1,18 @@
 export {
     createAsyncApi,
-    type CreateObservableAsyncTaskConfig,
+    type CreateObservableTaskConfig,
     type CreateObservableMutationConfig,
-    type CreateObservableRequestConfig,
+    type CreateObservableResourceConfig,
 } from "./create-api";
 export { executeWithRetry } from "./utils/retryer";
 export type { IRequestOptions } from "./request/request-client";
 export type {
     EnabledOption,
     PollIntervalOption,
-    ObservableRequestConfig,
-    IObservableRequest,
-    IDefinedObservableRequest,
-    ObservableRequest
+    ObservableResourceConfig,
+    IObservableResource,
+    IDefinedObservableResource,
+    ObservableResource
 } from "./request/observable-request";
 export type {
     RequestKey,

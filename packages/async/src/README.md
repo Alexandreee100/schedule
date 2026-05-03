@@ -9,7 +9,7 @@
 ```ts
 import { createAsyncApi } from "@asudd/infra/async";
 
-const { createRequestClient, createObservableRequest, createObservableAsyncTask, createObservableMutation } =
+const { createRequestClient, createObservableResource, createObservableTask, createObservableMutation } =
   createAsyncApi();
 ```
 
@@ -61,12 +61,12 @@ In-flight запрос - это запрос, который уже запуще
 | `retry`      | `boolean \| number \| (failureCount, error) => boolean` | Повторные попытки. См. раздел «Повторные попытки».              |
 | `retryDelay` | `number \| (failureCount, error) => number`             | Задержка перед повторной попыткой в миллисекундах.              |
 
-### `createObservableRequest`
+### `createObservableResource`
 
 Создает request с реактивным состоянием выполнения.
 
 ```ts
-const detailsRequest = createObservableRequest({
+const detailsRequest = createObservableResource({
   requestKey: () => ["traffic-light-details", this.id] as const,
   requestFn: ({ requestKey }) => {
     const [, id] = requestKey;
@@ -108,12 +108,12 @@ const detailsRequest = createObservableRequest({
 | `cancel()`          | Отменяет текущий запрос.                           |
 | `destroy()`         | Отменяет запрос и очищает подписки.                |
 
-### `createObservableAsyncTask`
+### `createObservableTask`
 
 Создает async task с реактивным состоянием выполнения для операций, которые не возвращают данные. Подходит для инициализации store или workflow, где результат применяется внутри `requestFn`.
 
 ```ts
-const bootstrapTask = createObservableAsyncTask({
+const bootstrapTask = createObservableTask({
   requestKey: () => ["traffic-lights-bootstrap"] as const,
   requestFn: async () => {
     const items = await service.getItems();
@@ -134,7 +134,7 @@ const bootstrapTask = createObservableAsyncTask({
 | `enabled`      | `boolean \| () => boolean`                   | Разрешает автоматический запуск задачи. Пока `false`, задача не стартует автоматически. |
 | `pollInterval` | `number \| false \| () => number \| false`   | Интервал периодического запуска задачи в миллисекундах.                                 |
 
-`createObservableAsyncTask` использует тот же объект, что и `createObservableRequest`, но создается с `enableOnDemand: false`, поэтому подписка стартует сразу.
+`createObservableTask` использует тот же объект, что и `createObservableResource`, но создается с `enableOnDemand: false`, поэтому подписка стартует сразу.
 
 ### `createObservableMutation`
 
@@ -357,7 +357,7 @@ Mutation по умолчанию использует `retry: 0`.
 
 ```ts
 // По умолчанию для данных, которые живут в store/model
-createObservableRequest / createObservableAsyncTask / createObservableMutation;
+createObservableResource / createObservableTask / createObservableMutation;
 
 // Точечно, если данные живут в query cache
 createQuery / createInfiniteQuery;

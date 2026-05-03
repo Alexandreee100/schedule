@@ -11,7 +11,7 @@ import { DisposableController } from "@schedule/core/disposable-controller";
 export type EnabledOption = boolean | (() => boolean);
 export type PollIntervalOption = number | false | (() => number | false | undefined);
 
-export type ObservableRequestConfig<TRequestKey extends RequestKey, TData extends RequestData> = Omit<
+export type ObservableResourceConfig<TRequestKey extends RequestKey, TData extends RequestData> = Omit<
     IRequestControllerConfig<TRequestKey, TData>,
     "createRequestStateStore"
 > & {
@@ -20,7 +20,7 @@ export type ObservableRequestConfig<TRequestKey extends RequestKey, TData extend
     pollInterval?: PollIntervalOption;
 };
 
-export interface IObservableRequest<TData extends RequestData> {
+export interface IObservableResource<TData extends RequestData> {
     readonly state: RequestState<TData>;
     readonly isSuccessful: boolean;
     readonly isError: boolean;
@@ -37,11 +37,11 @@ export interface IObservableRequest<TData extends RequestData> {
     destroy(): void;
 }
 
-export interface IDefinedObservableRequest<TData extends RequestData> extends Omit<IObservableRequest<TData>, "data"> {
+export interface IDefinedObservableResource<TData extends RequestData> extends Omit<IObservableResource<TData>, "data"> {
     readonly data: TData;
 }
 
-export class ObservableRequest<TRequestKey extends RequestKey, TData extends RequestData> {
+export class ObservableResource<TRequestKey extends RequestKey, TData extends RequestData> {
     private readonly requestController: RequestController<TRequestKey, TData>;
     private readonly reactionDisposers = new DisposableController();
 
@@ -52,7 +52,7 @@ export class ObservableRequest<TRequestKey extends RequestKey, TData extends Req
     private readonly requestKey;
     private pollIntervalDisposer = new DisposableController();
 
-    constructor(config: ObservableRequestConfig<TRequestKey, TData>) {
+    constructor(config: ObservableResourceConfig<TRequestKey, TData>) {
         const { enableOnDemand = true, enabled = true, pollInterval = false, requestKey, ...controllerConfig } = config;
 
         this.requestController = new RequestController({
