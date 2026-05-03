@@ -1,11 +1,12 @@
 import { type SetStateAction, useCallback, useEffect, useRef, useState } from "react";
+import { usePrevious } from "./use-previous";
 
-import { usePrevious } from "src/shared/hooks/use-previous";
 
 interface UseControlledValueProps<T, R extends unknown[]> {
     initialValue: T | (() => T);
     controlledValue?: T;
     onChange?: (value: T, ...rest: R) => void;
+    enableWarning?: boolean
 }
 
 type UseControlledValueReturn<T, R extends unknown[]> = [
@@ -20,7 +21,7 @@ export function useControlledValue<T, R extends unknown[] = unknown[]>(
     const { initialValue, controlledValue, onChange } = props;
     const isControlled = controlledValue !== undefined;
 
-    if (import.meta.env.DEV) {
+    if (props.enableWarning) {
         // eslint-disable-next-line react-hooks/rules-of-hooks
         useWarning(isControlled);
     }

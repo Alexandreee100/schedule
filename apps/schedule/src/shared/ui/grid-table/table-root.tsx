@@ -24,8 +24,9 @@ type TablePanelVariantsProps = VariantProps<typeof tableRootVariants>;
 
 export interface ITableRootProps
     extends
-        Omit<IGridTableProps, "className" | "density" | "dividers">,
+        Omit<IGridTableProps, "className" | "density" | "dividers" | "columnSizes">,
         TablePanelVariantsProps {
+    columnSizes?: number[],
     header?: ReactNode;
     footer?: ReactNode;
     density?: GridTableVariantsProps["density"];

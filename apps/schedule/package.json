@@ -6,6 +6,7 @@
     "dev": "vite"
   },
   "dependencies": {
+    "@schedule/react": "workspace:*",
     "@schedule/async": "workspace:*",
     "@floating-ui/dom": "1.7.5",
     "@floating-ui/react": "0.27.18",
@@ -25,6 +26,7 @@
     "typescript": "5.9.3"
   },
   "devDependencies": {
+    "@schedule/eslint-config": "workspace:*",
     "@babel/plugin-proposal-decorators": "7.29.0",
     "@babel/plugin-transform-class-properties": "7.28.6",
     "@babel/plugin-transform-class-static-block": "7.28.6",
@@ -46,7 +48,6 @@
     "lint-staged": "16.2.7",
     "postcss-nesting": "14.0.0",
     "prettier": "3.8.1",
-    "prettier-plugin-sh": "0.18.0",
     "rimraf": "6.1.2",
     "type-fest": "5.4.4",
     "typescript-eslint": "8.54.0",

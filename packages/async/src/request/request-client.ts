@@ -1,4 +1,4 @@
-import { type RetryDelayValue, type RetryValue } from "./request-controller";
+import type { RetryDelayValue, RetryValue } from "./request-controller";
 import { InFlightRequestCache } from "../cache/inflight-request-cache";
 import { raceWithAbort } from "../utils/race-with-abort";
 import { executeWithRetry } from "../utils/retryer";

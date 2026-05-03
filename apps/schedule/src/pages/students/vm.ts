@@ -7,7 +7,7 @@ import { createObservableResource } from "@/core/async";
 
 export class StudentsViewModel extends ViewModel {
     public selectedStudents = observable.set<string>();
-    private readonly studentsRequest;
+    private readonly studentsResource;
 
     constructor() {
         super();
@@ -20,7 +20,7 @@ export class StudentsViewModel extends ViewModel {
             toggleStudent: action.bound,
         });
 
-        this.studentsRequest = createObservableResource({
+        this.studentsResource = createObservableResource({
             requestKey: () => ["students"],
             requestFn: async () => {
                 return studentsMocks;
@@ -30,7 +30,7 @@ export class StudentsViewModel extends ViewModel {
     }
 
     public get data(): IStudentTableDTO[] {
-        return this.studentsRequest.data.map((student) => {
+        return this.studentsResource.data.map((student) => {
             return {
                 item: student,
                 isSelected: this.selectedStudents.has(student.id),
@@ -45,7 +45,7 @@ export class StudentsViewModel extends ViewModel {
     }
 
     public get studentIDs() {
-        return this.studentsRequest.data.map((student) => student.id);
+        return this.studentsResource.data.map((student) => student.id);
     }
 
     public selectAllStudents() {

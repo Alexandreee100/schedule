@@ -3,7 +3,7 @@ import type { RequestData } from "./types";
 
 
 export interface IRequestPromiseProvider<TData extends RequestData> {
-    get(): { promise: Promise<TData>; unsubscribe: () => void };
+    get: () => { promise: Promise<TData>; unsubscribe: () => void };
 }
 
 export interface IBaseRequestExecutorHandlers<TData extends RequestData> {

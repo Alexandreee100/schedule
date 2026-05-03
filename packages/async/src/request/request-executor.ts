@@ -1,4 +1,4 @@
-import { type RequestState } from "./request-state";
+import type { RequestState } from "./request-state";
 import type { IStateStore } from "../utils/create-state-store";
 import type { RequestData } from "./types";
 import { BaseRequestExecutor, type IRequestPromiseProvider } from "./base-request-executor";

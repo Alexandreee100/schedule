@@ -5,9 +5,9 @@ import {
     useReactTable,
 } from "@tanstack/react-table";
 import { useState } from "react";
-import { useResizeObserver } from "../../hooks/use-resize-observer";
 import { type ITableRootProps, TableRoot } from "../grid-table/table-root";
 import { useGridTableAdapter } from "./hooks";
+import { useResizeObserver } from "@schedule/react/hooks/use-resize-observer";
 
 interface ITableProps<TData extends RowData> {
     columns: ColumnDef<TData, any>[];
@@ -48,6 +48,7 @@ export const Table = <TData extends RowData>(props: ITableProps<TData>) => {
     const hasFixedWidth = props.width !== undefined;
     const isFullWidth = !hasFixedWidth && !!props.fullWidth;
 
+    // Рассчитываем ширину таблицы
     const [tableTotalWidth, setTableWidth] = useState<number | undefined>(
         () => {
             if (hasFixedWidth) {

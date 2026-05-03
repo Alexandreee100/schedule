@@ -1,10 +1,18 @@
 {
   "name": "@schedule/async",
   "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "lint": "eslint",
+    "lint:fix": "eslint --fix",
+    "types:check": "tsc --noEmit",
+    "dev": "tsc --watch",
+    "build": "rimraf dist && tsc"
+  },
   "exports": {
     ".": {
-      "types": "./src/index.ts",
-      "default": "./src/index.ts"
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
     }
   },
   "peerDependencies": {
@@ -14,9 +22,10 @@
     "@schedule/core": "workspace:*"
   },
   "devDependencies": {
-    "typescript": "5.8.3",
     "@schedule/configs": "workspace:*",
+    "@schedule/eslint-config": "workspace:*",
     "eslint": "9.39.3",
-    "mobx": "6.12.5"
+    "mobx": "6.12.5",
+    "typescript": "5.8.3"
   }
 }

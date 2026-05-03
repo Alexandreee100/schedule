@@ -1,11 +1,11 @@
 import { InFlightRequestCache } from "../cache/inflight-request-cache";
 import { serializeRequestKey, type SerializeRequestKeyFn } from "../utils/serialize-request-key";
 import { type IRequestStateStore, RequestExecutor } from "./request-executor";
-import { type RequestState } from "./request-state";
+import type { RequestState } from "./request-state";
 import type { RequestData, RequestFn, RequestKey } from "./types";
 
 export interface IInFlightRequestProvider<TData> {
-    get(): { promise: Promise<TData>; unsubscribe: () => void };
+    get: () => { promise: Promise<TData>; unsubscribe: () => void };
 }
 export type PlaceholderDataFactory<TData> = (previousData: TData | undefined) => TData | undefined;
 export type PlaceholderDataOption<TData> = TData | PlaceholderDataFactory<TData> | undefined;

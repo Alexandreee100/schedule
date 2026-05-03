@@ -32,9 +32,9 @@ export interface IObservableResource<TData extends RequestData> {
     readonly error: unknown;
     readonly data: TData | undefined;
     readonly dataUpdatedAt: number;
-    request(): Promise<TData>;
-    cancel(): void;
-    destroy(): void;
+    request: () => Promise<TData>;
+    cancel: () => void;
+    destroy: () => void;
 }
 
 export interface IDefinedObservableResource<TData extends RequestData> extends Omit<IObservableResource<TData>, "data"> {

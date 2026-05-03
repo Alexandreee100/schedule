@@ -2,22 +2,36 @@
   "name": "@schedule/react",
   "version": "1.0.0",
   "description": "",
+  "type": "module",
   "exports": {
     ".": {
       "types": "./src/index.ts",
       "default": "./src/index.ts"
+    },
+    "./view-model": {
+      "types": "./src/view-model/index.ts",
+      "default": "./src/view-model/index.ts"
+    },
+    "./hooks/*": {
+      "types": "./src/hooks/*.ts",
+      "default": "./src/hooks/*.ts"
     }
   },
   "peerDependencies": {
     "react": "catalog:",
-    "react-dom": "catalog:"
+    "react-dom": "catalog:",
+    "mobx-react-lite": "4.1.0"
+  },
+  "dependencies": {
+    "@schedule/core": "workspace:*"
   },
   "devDependencies": {
-    "@schedule/configs": "workspace:",
+    "@schedule/configs": "workspace:*",
     "typescript": "catalog:",
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
     "eslint": "9.39.3",
+    "mobx-react-lite": "4.1.0",
     "react": "catalog:",
     "react-dom": "catalog:"
   }

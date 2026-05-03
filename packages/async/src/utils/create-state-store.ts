@@ -1,7 +1,7 @@
 type SetStateAction<T> = T | ((prevState: T) => T);
 
 export interface IStateStore<TState> {
-    get(): TState;
+    get: () => TState;
     set: (state: SetStateAction<TState>) => void;
     state: TState;
 }

@@ -1,5 +1,5 @@
 {
-  "extends": "@schedule/configs/tsconfig.base.json",
+  "extends": "@schedule/configs/tsconfig/base",
   "compilerOptions": {
     "composite": true,
     "module": "ESNext",

@@ -1,6 +1,6 @@
 import { createContext, type PropsWithChildren, useEffect } from "react";
 import { observer } from "mobx-react-lite";
-import { createUseContextHook } from "@schedule/react";
+import { createUseContextHook } from "../create-use-context-hook";
 
 // Пересечение с object, чтобы не требовать обязательную реализацию из-за weak-type
 // https://www.typescriptlang.org/docs/handbook/release-notes/typescript-2-4.html#weak-type-detection

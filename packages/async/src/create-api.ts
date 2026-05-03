@@ -1,8 +1,8 @@
-import {
-    type RetryDelayValue,
-    type RetryValue,
-    type IRequestControllerConfig,
-    type PlaceholderDataOption,
+import type {
+    RetryDelayValue,
+    RetryValue,
+    IRequestControllerConfig,
+    PlaceholderDataOption,
 } from "./request/request-controller";
 import { createRequestClient as createRequestClientBase } from "./request/request-client";
 import { InFlightRequestCache } from "./cache/inflight-request-cache";

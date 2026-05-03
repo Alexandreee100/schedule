@@ -1,7 +1,7 @@
 import type { ServiceIdentifier } from "@freshgum/typedi";
-import { useRefFactory } from "@/shared/hooks/use-ref-factory";
 
 import { useContainer } from "./use-container";
+import { useRefFactory } from "@schedule/react/hooks/use-ref-factory";
 
 export const useService = <T>(type: ServiceIdentifier<T>): T => {
     const container = useContainer();
