@@ -1,31 +1,36 @@
-import { ViewModel } from "../../core/view-model/view-model";
+import { ViewModel } from "@/core/view-model/view-model";
 import { action, computed, makeObservable, observable } from "mobx";
 import type { IStudent, IStudentTableDTO } from "./types";
 import { createColumns } from "./columns";
 import { studentsMocks } from "./students.mocks";
+import { createObservableRequest } from "@/core/async";
 
 export class StudentsViewModel extends ViewModel {
     public selectedStudents = observable.set<string>();
+    private readonly studentsRequest;
 
     constructor() {
         super();
 
         makeObservable(this, {
-            students: computed,
             columns: computed,
             studentIDs: computed,
             data: computed,
             selectAllStudents: action.bound,
             toggleStudent: action.bound,
         });
-    }
 
-    public get students(): IStudent[] {
-        return studentsMocks;
+        this.studentsRequest = createObservableRequest({
+            requestKey: () => ["students"],
+            requestFn: async () => {
+                return studentsMocks;
+            },
+            initialData: [],
+        });
     }
 
     public get data(): IStudentTableDTO[] {
-        return this.students.map((student) => {
+        return this.studentsRequest.data.map((student) => {
             return {
                 item: student,
                 isSelected: this.selectedStudents.has(student.id),
@@ -40,7 +45,7 @@ export class StudentsViewModel extends ViewModel {
     }
 
     public get studentIDs() {
-        return this.students.map((student) => student.id);
+        return this.studentsRequest.data.map((student) => student.id);
     }
 
     public selectAllStudents() {

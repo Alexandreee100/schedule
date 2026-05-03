@@ -1,5 +1,5 @@
-import { DisposableController } from "../../shared/lib/disposable-controller";
 import { RefCounter } from "./ref-counter";
+import { DisposableController } from "../disposable-controller";
 
 /**
  * Базовый абстрактный класс для ViewModel с управлением жизненным циклом

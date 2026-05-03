@@ -13,7 +13,7 @@
     "paths": {
       "@/*": ["./*"],
     },
-    "tsBuildInfoFile": "./node_modules/.tmp/tsbuildinfo.app.tsbuildinfo"
+    "tsBuildInfoFile": "./node_modules/.tmp/tsbuildinfo.app.tsbuildinfo",
   },
   "include": ["./src"]
 }

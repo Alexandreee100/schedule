@@ -2,7 +2,7 @@
   "name": "@schedule/async",
   "version": "1.0.0",
   "exports": {
-    "./query": {
+    ".": {
       "types": "./src/index.ts",
       "default": "./src/index.ts"
     }

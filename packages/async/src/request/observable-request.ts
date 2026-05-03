@@ -1,4 +1,4 @@
-import { DisposableController } from "@asudd/lib/disposable-controller";
+
 import { comparer, reaction } from "mobx";
 import { type IRequestControllerConfig, RequestController } from "./request-controller";
 import { createMobxRequestStateStore } from "../adapters/mobx-request-state-store";
@@ -6,6 +6,7 @@ import { CancelledError } from "../utils/race-with-abort";
 import type { RequestState } from "./request-state";
 
 import type { RequestData, RequestKey } from "./types";
+import { DisposableController } from "@schedule/core/disposable-controller";
 
 export type EnabledOption = boolean | (() => boolean);
 export type PollIntervalOption = number | false | (() => number | false | undefined);

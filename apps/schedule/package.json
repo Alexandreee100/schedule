@@ -6,6 +6,7 @@
     "dev": "vite"
   },
   "dependencies": {
+    "@schedule/async": "workspace:*",
     "@floating-ui/dom": "1.7.5",
     "@floating-ui/react": "0.27.18",
     "@freshgum/typedi": "0.7.2",
@@ -20,15 +21,16 @@
     "radix-ui": "1.4.3",
     "react": "18.3.1",
     "react-dom": "18.3.1",
+    "reactive-route": "1.0.0",
     "typescript": "5.9.3"
   },
   "devDependencies": {
-    "@schedule/configs": "workspace:*",
     "@babel/plugin-proposal-decorators": "7.29.0",
     "@babel/plugin-transform-class-properties": "7.28.6",
     "@babel/plugin-transform-class-static-block": "7.28.6",
     "@babel/preset-typescript": "7.28.5",
     "@eslint/js": "9.35.0",
+    "@schedule/configs": "workspace:*",
     "@types/react": "~18.3.0",
     "@types/react-dom": "~18.3.0",
     "@vitejs/plugin-react": "5.1.4",
