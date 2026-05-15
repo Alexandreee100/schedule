@@ -19,6 +19,7 @@
     "mobx-tanstack-query": "7.0.0"
   },
   "devDependencies": {
+    "@schedule/eslint-config": "workspace:*",
     "@schedule/configs": "workspace:*",
     "@schedule/core": "workspace:*",
     "@types/react": "catalog:",
