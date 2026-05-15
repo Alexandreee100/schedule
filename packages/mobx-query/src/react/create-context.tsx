@@ -1,6 +1,6 @@
 import { createContext, type ReactNode } from "react";
 import type { AnyQueryClient } from "mobx-tanstack-query";
-import { createUseContextHook } from "@schedule/react";
+import { createUseContextHook } from "@schedule/core/react";
 
 export const createQueryContext = <T extends AnyQueryClient = AnyQueryClient>() => {
     const Context = createContext<T | undefined>(undefined);

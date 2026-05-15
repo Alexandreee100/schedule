@@ -1,8 +1,8 @@
 import { type DependencyList, useEffect, useMemo } from "react";
 import { ContainerInstance } from "@freshgum/typedi";
 
-import { ViewModel } from "../view-model";
 import { useContainer } from "../../di/hooks/use-container";
+import { ViewModel } from "@schedule/core/view-model";
 
 export const useViewModel = <T extends ViewModel>(
     factory: (container: ContainerInstance) => T,

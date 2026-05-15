@@ -24,7 +24,7 @@
   "devDependencies": {
     "@schedule/configs": "workspace:*",
     "@schedule/eslint-config": "workspace:*",
-    "eslint": "9.39.3",
+    "eslint": "catalog:",
     "mobx": "6.12.5",
     "typescript": "5.8.3"
   }

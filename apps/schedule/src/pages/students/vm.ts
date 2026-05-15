@@ -1,13 +1,13 @@
-import { ViewModel } from "@/core/view-model/view-model";
 import { action, computed, makeObservable, observable } from "mobx";
-import type { IStudentTableDTO } from "./types";
+import type { IStudent, IStudentTableDTO } from "./types";
 import { createColumns } from "./columns";
 import { studentsMocks } from "./students.mocks";
-import { createObservableResource } from "@/core/async";
+import { queryApi } from "@/core/query/api";
+import { ViewModel } from "@schedule/core/view-model";
 
 export class StudentsViewModel extends ViewModel {
     public selectedStudents = observable.set<string>();
-    private readonly studentsResource;
+    private readonly studentsQuery;
 
     constructor() {
         super();
@@ -20,17 +20,17 @@ export class StudentsViewModel extends ViewModel {
             toggleStudent: action.bound,
         });
 
-        this.studentsResource = createObservableResource({
+        this.studentsQuery = queryApi.createQuery(() => ({
+            initialData: [],
             requestKey: () => ["students"],
-            requestFn: async () => {
+            queryFn: async () => {
                 return studentsMocks;
             },
-            initialData: [],
-        });
+        }));
     }
 
     public get data(): IStudentTableDTO[] {
-        return this.studentsResource.data.map((student) => {
+        return this.studentsQuery.data!.map((student) => {
             return {
                 item: student,
                 isSelected: this.selectedStudents.has(student.id),
@@ -45,7 +45,7 @@ export class StudentsViewModel extends ViewModel {
     }
 
     public get studentIDs() {
-        return this.studentsResource.data.map((student) => student.id);
+        return this.studentsQuery.data!.map((student) => student.id);
     }
 
     public selectAllStudents() {

@@ -7,7 +7,7 @@ import {
 import { useState } from "react";
 import { type ITableRootProps, TableRoot } from "../grid-table/table-root";
 import { useGridTableAdapter } from "./hooks";
-import { useResizeObserver } from "@schedule/react/hooks/use-resize-observer";
+import { useResizeObserver } from "@schedule/core/react/hooks";
 
 interface ITableProps<TData extends RowData> {
     columns: ColumnDef<TData, any>[];

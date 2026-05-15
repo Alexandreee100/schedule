@@ -14,16 +14,17 @@
     "react-dom": "catalog:"
   },
   "dependencies": {
+    "@schedule/core": "workspace:*",
     "@tanstack/query-core": "5.96.2",
-    "mobx-tanstack-query": "6.14.1",
-    "@schedule/react": "workspace:*"
+    "mobx-tanstack-query": "7.0.0"
   },
   "devDependencies": {
-    "react": "catalog:",
-    "react-dom": "catalog:",
+    "@schedule/configs": "workspace:*",
+    "@schedule/core": "workspace:*",
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
-    "eslint": "9.39.3",
-    "@schedule/configs": "workspace:*"
+    "eslint": "catalog:",
+    "react": "catalog:",
+    "react-dom": "catalog:"
   }
 }

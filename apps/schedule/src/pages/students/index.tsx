@@ -1,10 +1,10 @@
-import { useViewModel } from "../../core/view-model/hooks/use-view-model";
 import { Flex, Section } from "@radix-ui/themes";
 import { AddNewStudentMenu } from "./actions/add-new-student-menu";
 import { SelectedRowsActionMenu } from "./actions/selected-rows-action-menu";
 import { Table } from "@/shared/ui/table";
 import { StudentsViewModel } from "./vm";
 import { observer } from "mobx-react-lite";
+import { useViewModel } from "@/core/view-model/hooks/use-view-model";
 
 const Students = observer(() => {
     const vm = useViewModel(() => new StudentsViewModel(), []);

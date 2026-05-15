@@ -1,5 +1,4 @@
-/// <reference types="vitest/config" />
-
+import "vitest/config";
 import babel from "vite-plugin-babel";
 import react from "@vitejs/plugin-react";
 import { defineConfig, loadEnv, type PluginOption } from "vite";
@@ -75,18 +74,7 @@ export default defineConfig(({ mode }) => {
         base: envs.PUBLIC_URL,
         css: { modules: { localsConvention: "camelCaseOnly" } },
         build: {
-            sourcemap: "hidden",
-            target: ["es2020", "edge88", "firefox78", "chrome87", "safari14"],
-            outDir: "./build",
-            rollupOptions: {
-                output: {
-                    manualChunks(id) {
-                        if (id.includes("node_modules")) {
-                            return "vendor";
-                        }
-                    },
-                },
-            },
+            outDir: "./dist",
         },
         test: {
             environment: "happy-dom",

@@ -14,7 +14,8 @@
     }
   },
   "devDependencies": {
-    "typescript": "catalog:",
-    "@schedule/configs": "workspace:*"
+    "@schedule/configs": "workspace:*",
+    "eslint": "catalog:",
+    "typescript": "catalog:"
   }
 }
