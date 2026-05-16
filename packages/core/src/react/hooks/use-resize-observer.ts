@@ -11,7 +11,6 @@ export const useResizeObserver = <T extends HTMLElement>({
 
 	const cb = useRef(callback);
 
-	// eslint-disable-next-line react-hooks/refs
 	cb.current = callback;
 
 	useEffect(() => {

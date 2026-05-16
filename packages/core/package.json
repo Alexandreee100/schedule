@@ -17,9 +17,7 @@
 	},
 	"devDependencies": {
 		"@schedule/configs": "workspace:*",
-		"@schedule/eslint-config": "workspace:*",
 		"@types/react": "catalog:",
-		"eslint": "catalog:",
 		"mobx": "6.15.3",
 		"mobx-react-lite": "4.1.1",
 		"react": "catalog:",

@@ -8,8 +8,8 @@ export const useViewModel = <T extends ViewModel>(
 	deps: DependencyList,
 ): T => {
 	const container = useContainer();
-	// eslint-disable-next-line react-hooks/exhaustive-deps
-	const vm = useMemo(() => factory(container), [container, ...deps]);
+
+	const vm = useMemo(() => factory(container), [container, factory, ...deps]);
 
 	useEffect(() => {
 		vm.mount();

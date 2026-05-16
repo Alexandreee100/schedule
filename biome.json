@@ -1,10 +1,15 @@
 {
 	"$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
+
 	"linter": {
-		"enabled": true,
-		"rules": {
-			"recommended": true}
-	},
+    "enabled": true,
+    "domains": {
+      "react": "recommended"
+    },
+    "rules": {
+      "recommended": true
+    }
+  },
 	"formatter": {
 		"lineWidth": 120,
 		"indentStyle": "tab",

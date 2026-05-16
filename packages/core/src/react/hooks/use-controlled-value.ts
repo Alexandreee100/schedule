@@ -21,7 +21,6 @@ export function useControlledValue<T, R extends unknown[] = unknown[]>(
 	const isControlled = controlledValue !== undefined;
 
 	if (props.enableWarning) {
-		// eslint-disable-next-line react-hooks/rules-of-hooks
 		useWarning(isControlled);
 	}
 
