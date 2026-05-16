@@ -1,5 +1,5 @@
 import { createContext } from "react";
-import type { AnyQueryClient } from "@schedule/mobx-query";
+import type { AnyQueryClient } from "@schedule/core/mobx-query";
 import { createUseContextHook } from "@schedule/core/react";
 
 const QueryClientContext = createContext<AnyQueryClient | undefined>(undefined);

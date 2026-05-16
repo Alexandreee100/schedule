@@ -1,34 +1,17 @@
-import js from "@eslint/js";
 import { defineConfig } from "eslint/config";
-import prettier from "eslint-config-prettier/flat";
-import react from "eslint-plugin-react";
-import ts from "typescript-eslint";
 import mobx from "eslint-plugin-mobx";
-import reactHooks from "eslint-plugin-react-hooks";
+import react from "@schedule/eslint-config/react";
 
 export default defineConfig([
+    react,
     {
         settings: {
-            "react": {
-                version: "detect",
-            },
             "componentWrapperFunctions": ["observer"],
             "react-hooks": {
                 additionalEffectHooks: "(useViewModel)",
             },
         },
-        extends: [
-            js.configs.recommended,
-            ts.configs.recommended,
-            react.configs.flat.recommended,
-            react.configs.flat["jsx-runtime"],
-            reactHooks.configs.flat.recommended,
-            mobx.flatConfigs.recommended,
-            prettier,
-        ],
-        plugins: {
-            react: react,
-        },
+        extends: [mobx.flatConfigs.recommended],
         rules: {
             "no-prototype-builtins": "off",
             "no-empty": ["error", { allowEmptyCatch: true }],
@@ -66,10 +49,7 @@ export default defineConfig([
                 },
             ],
             "@typescript-eslint/method-signature-style": ["error", "property"],
-            "@typescript-eslint/no-unused-expressions": [
-                "error",
-                { allowTernary: true },
-            ],
+            "@typescript-eslint/no-unused-expressions": ["error", { allowTernary: true }],
             "@typescript-eslint/explicit-member-accessibility": [
                 "error",
                 {
