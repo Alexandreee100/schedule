@@ -1,19 +1,19 @@
 {
-	"extends": "@schedule/configs/tsconfig/base",
-	"compilerOptions": {
-		"composite": true,
-		"module": "ESNext",
-		"moduleResolution": "Bundler",
-		"target": "ES2024",
-		"experimentalDecorators": true,
-		"noEmit": true,
-		"jsx": "react-jsx",
-		"lib": ["ES2024", "DOM", "DOM.Iterable"],
-		"baseUrl": "src",
-		"paths": {
-			"@/*": ["./*"]
-		},
-		"tsBuildInfoFile": "./node_modules/.tmp/tsbuildinfo.app.tsbuildinfo"
-	},
-	"include": ["./src"]
+  "extends": "@schedule/configs/tsconfig/base",
+  "compilerOptions": {
+    "composite": true,
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "target": "ES2024",
+    "experimentalDecorators": true,
+    "noEmit": true,
+    "jsx": "react-jsx",
+    "lib": ["ES2024", "DOM", "DOM.Iterable"],
+    "baseUrl": "src",
+    "paths": {
+      "@/*": ["./*"]
+    },
+    "tsBuildInfoFile": "./node_modules/.tmp/tsbuildinfo.app.tsbuildinfo"
+  },
+  "include": ["./src"]
 }

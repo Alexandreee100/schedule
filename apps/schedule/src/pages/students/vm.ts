@@ -3,62 +3,62 @@ import { action, computed, makeObservable, observable } from "mobx";
 import { queryApi } from "@/core/query/api";
 import { createColumns } from "./columns";
 import { studentsMocks } from "./students.mocks";
-import type { IStudent, IStudentTableDTO } from "./types";
+import type { IStudentTableDTO } from "./types";
 
 export class StudentsViewModel extends ViewModel {
-	public selectedStudents = observable.set<string>();
-	private readonly studentsQuery;
+    public selectedStudents = observable.set<string>();
+    private readonly studentsQuery;
 
-	constructor() {
-		super();
+    constructor() {
+        super();
 
-		makeObservable(this, {
-			columns: computed,
-			studentIDs: computed,
-			data: computed,
-			selectAllStudents: action.bound,
-			toggleStudent: action.bound,
-		});
+        this.studentsQuery = queryApi.createQuery(() => ({
+            initialData: [],
+            requestKey: () => ["students"],
+            queryFn: async () => {
+                return studentsMocks;
+            },
+        }));
 
-		this.studentsQuery = queryApi.createQuery(() => ({
-			initialData: [],
-			requestKey: () => ["students"],
-			queryFn: async () => {
-				return studentsMocks;
-			},
-		}));
-	}
+        makeObservable(this, {
+            columns: computed,
+            studentIDs: computed,
+            data: computed,
+            selectAllStudents: action.bound,
+            toggleStudent: action.bound,
+        });
+    }
 
-	public get data(): IStudentTableDTO[] {
-		return this.studentsQuery.data!.map((student) => {
-			return {
-				item: student,
-				isSelected: this.selectedStudents.has(student.id),
-			};
-		});
-	}
+    public get data(): IStudentTableDTO[] {
+        return this.studentsQuery.data!.map((student) => {
+            return {
+                item: student,
+                isSelected: this.selectedStudents.has(student.id),
+            };
+        });
+    }
 
-	public get columns() {
-		const params = { onToggleStudent: this.toggleStudent };
+    public get columns() {
+        const params = { onToggleStudent: this.toggleStudent };
 
-		return createColumns(params);
-	}
+        return createColumns(params);
+    }
 
-	public get studentIDs() {
-		return this.studentsQuery.data!.map((student) => student.id);
-	}
+    public get studentIDs() {
+        return this.studentsQuery.data!.map((student) => student.id);
+    }
 
-	public selectAllStudents() {
-		this.selectedStudents.replace(this.studentIDs);
-	}
+    public selectAllStudents() {
+        this.selectedStudents.replace(this.studentIDs);
+    }
 
-	public toggleStudent(studentID: string) {
-		const isExisted = this.selectedStudents.has(studentID);
+    public toggleStudent(studentID: string) {
+        const isExisted = this.selectedStudents.has(studentID);
 
-		if (isExisted) {
-			this.selectedStudents.delete(studentID);
-		} else {
-			this.selectedStudents.add(studentID);
-		}
-	}
+        if (isExisted) {
+            this.selectedStudents.delete(studentID);
+        } else {
+            this.selectedStudents.add(studentID);
+        }
+    }
 }

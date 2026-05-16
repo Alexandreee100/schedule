@@ -6,31 +6,34 @@ import { createUseContextHook } from "../react/create-use-context-hook";
 // https://www.typescriptlang.org/docs/handbook/release-notes/typescript-2-4.html#weak-type-detection
 export type Destroyable = object & { destroy?: () => void; mount?: () => void };
 
-export const createViewModelContext = <VM extends Destroyable, Props extends object>(
-	useViewModelFactory: (props: Props) => VM,
-	contextName?: string,
+export const createViewModelContext = <
+    VM extends Destroyable,
+    Props extends object,
+>(
+    useViewModelFactory: (props: Props) => VM,
+    contextName?: string,
 ) => {
-	const Context = createContext<VM | undefined>(undefined);
+    const Context = createContext<VM | undefined>(undefined);
 
-	const Provider = observer((props: PropsWithChildren<Props>) => {
-		const vm = useViewModelFactory(props);
+    const Provider = observer((props: PropsWithChildren<Props>) => {
+        const vm = useViewModelFactory(props);
 
-		useEffect(() => {
-			vm.mount?.();
+        useEffect(() => {
+            vm.mount?.();
 
-			return () => {
-				vm.destroy?.();
-			};
-		}, [vm]);
+            return () => {
+                vm.destroy?.();
+            };
+        }, [vm]);
 
-		return <Context.Provider value={vm}>{props.children}</Context.Provider>;
-	});
+        return <Context.Provider value={vm}>{props.children}</Context.Provider>;
+    });
 
-	if (contextName) {
-		Context.displayName = contextName;
-	}
+    if (contextName) {
+        Context.displayName = contextName;
+    }
 
-	const useContextHook = createUseContextHook(Context);
+    const useContextHook = createUseContextHook(Context);
 
-	return [Provider, useContextHook] as const;
+    return [Provider, useContextHook] as const;
 };

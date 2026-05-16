@@ -1,15 +1,15 @@
 import "@radix-ui/themes/styles.css";
 
+import { invariant } from "@schedule/core/asserts";
 import { createRoot } from "react-dom/client";
-import { invariant } from "@/shared/asserts";
 import { App } from "./app";
 
 const main = () => {
-	const element = document.getElementById("root");
-	invariant(element !== null);
-	const root = createRoot(element);
+    const element = document.getElementById("root");
+    invariant(element !== null);
+    const root = createRoot(element);
 
-	root.render(<App />);
+    root.render(<App />);
 };
 
 main();

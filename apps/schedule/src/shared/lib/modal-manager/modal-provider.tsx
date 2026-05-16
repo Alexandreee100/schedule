@@ -8,27 +8,27 @@ import type { ModalContextValue } from "src/shared/lib/modal-manager/types";
 const ModalContext = createContext<ModalContextValue<unknown> | null>(null);
 
 export const ModalProvider = observer(function ModalContainer() {
-	const manager = useService(ModalManager);
+    const manager = useService(ModalManager);
 
-	const activeModalState = manager.activeModal;
+    const activeModalState = manager.activeModal;
 
-	if (activeModalState) {
-		return (
-			<ModalContext.Provider value={activeModalState}>
-				<ModalRenderer modalState={activeModalState} />
-			</ModalContext.Provider>
-		);
-	}
+    if (activeModalState) {
+        return (
+            <ModalContext.Provider value={activeModalState}>
+                <ModalRenderer modalState={activeModalState} />
+            </ModalContext.Provider>
+        );
+    }
 
-	return null;
+    return null;
 });
 
 export function useModalContext<Return>() {
-	const context = useContext(ModalContext);
+    const context = useContext(ModalContext);
 
-	if (!context) {
-		throw new Error(`useModalContext must be used within <ModalProvider>`);
-	}
+    if (!context) {
+        throw new Error(`useModalContext must be used within <ModalProvider>`);
+    }
 
-	return context as ModalContextValue<Return>;
+    return context as ModalContextValue<Return>;
 }

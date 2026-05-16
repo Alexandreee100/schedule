@@ -1,35 +1,35 @@
 .base {
-	--row-height: auto;
+    --row-height: auto;
 
-	&.dividers-inner > .row:not(:last-child) {
-		border-bottom: 1px solid var(--table-row-divider-color);
-	}
+    &.dividers-inner > .row:not(:last-child) {
+        border-bottom: 1px solid var(--table-row-divider-color);
+    }
 
-	&.dividers-all > .row {
-		border-bottom: 1px solid var(--table-row-divider-color);
-	}
+    &.dividers-all > .row {
+        border-bottom: 1px solid var(--table-row-divider-color);
+    }
 
-	&.density-1 {
-		--table-cell-padding: var(--space-1);
-	}
+    &.density-1 {
+        --table-cell-padding: var(--space-1);
+    }
 
-	&.density-2 {
-		--table-cell-padding: var(--space-2);
-	}
+    &.density-2 {
+        --table-cell-padding: var(--space-2);
+    }
 
-	&.density-3 {
-		--table-cell-padding: var(--space-3);
-	}
+    &.density-3 {
+        --table-cell-padding: var(--space-3);
+    }
 }
 
 .row {
-	height: var(--row-height);
+    height: var(--row-height);
 }
 
 .header-row {
-	background-color: var(--table-header-background);
+    background-color: var(--table-header-background);
 }
 
 .cell {
-	padding: var(--table-cell-padding);
+    padding: var(--table-cell-padding);
 }

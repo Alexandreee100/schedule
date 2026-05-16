@@ -7,7 +7,8 @@ import { ModalManager } from "./modal-manager";
 import type { ModalState } from "./types";
 import { getPromiseContainer, wrapModal } from "./utils";
 
-type ShowFnProps<Props extends object> = RequiredKeysOf<Props> extends never ? Partial<Props> | void : Props;
+type ShowFnProps<Props extends object> =
+    RequiredKeysOf<Props> extends never ? Partial<Props> | void : Props;
 type ShowFnOptions = { scope?: ContainerInstance };
 
 export interface ICreateModalOptions {
@@ -41,9 +42,16 @@ export const createModalFactory = <Props extends object, Return = unknown>(
 
     const factoryFn = (options: ISharedModalSettings = {}) => {
         const modalManager = Container.get(ModalManager);
-        const { closeOnOutsideClick = false, scope, timer = Infinity } = { ...defaultOptions, ...options };
+        const {
+            closeOnOutsideClick = false,
+            scope,
+            timer = Infinity,
+        } = { ...defaultOptions, ...options };
 
-        const show = (props: ShowFnProps<Props>, options: ShowFnOptions = {}) => {
+        const show = (
+            props: ShowFnProps<Props>,
+            options: ShowFnOptions = {},
+        ) => {
             const actualScope = options.scope ?? scope;
             const ScopedComponent = wrapModal(Component, actualScope);
 
@@ -53,7 +61,11 @@ export const createModalFactory = <Props extends object, Return = unknown>(
             }
 
             const promiseContainer = getPromiseContainer<Return>();
-            const controller = new ModalController(id, promiseContainer, modalManager);
+            const controller = new ModalController(
+                id,
+                promiseContainer,
+                modalManager,
+            );
 
             const data = {
                 id,

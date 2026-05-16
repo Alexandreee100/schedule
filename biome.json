@@ -1,19 +1,27 @@
 {
-	"$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
-
-	"linter": {
+  "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
+  "linter": {
     "enabled": true,
     "domains": {
       "react": "recommended"
     },
     "rules": {
-      "recommended": true
+      "recommended": true,
+      "style": {
+        "noNonNullAssertion": "off"
+      }
     }
   },
-	"formatter": {
-		"lineWidth": 120,
-		"indentStyle": "tab",
-		"indentWidth": 6,
-		"useEditorconfig": true
-	}
+  "formatter": {
+    "lineWidth": 80,
+    "indentStyle": "space",
+    "lineEnding": "lf",
+    "indentWidth": 4,
+    "useEditorconfig": true
+  },
+  "json": {
+    "formatter": {
+      "indentWidth": 2
+    }
+  }
 }

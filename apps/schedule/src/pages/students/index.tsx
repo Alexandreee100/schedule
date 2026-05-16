@@ -7,22 +7,22 @@ import { SelectedRowsActionMenu } from "./actions/selected-rows-action-menu";
 import { StudentsViewModel } from "./vm";
 
 const Students = observer(() => {
-	const vm = useViewModel(() => new StudentsViewModel(), []);
+    const vm = useViewModel(() => new StudentsViewModel(), []);
 
-	return (
-		<div>
-			<Section>
-				<Flex gap="3">
-					<AddNewStudentMenu />
-					<SelectedRowsActionMenu />
-				</Flex>
-			</Section>
-			<Section>
-				<Table columns={vm.columns} data={vm.data} />
-			</Section>
-			<div>Пагинация</div>
-		</div>
-	);
+    return (
+        <div>
+            <Section>
+                <Flex gap="3">
+                    <AddNewStudentMenu />
+                    <SelectedRowsActionMenu />
+                </Flex>
+            </Section>
+            <Section>
+                <Table columns={vm.columns} data={vm.data} />
+            </Section>
+            <div>Пагинация</div>
+        </div>
+    );
 });
 
 Students.displayName = "Students";
