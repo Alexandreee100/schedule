@@ -1,5 +1,5 @@
-import { RefCounter } from "./ref-counter";
 import { DisposableController } from "../disposable-controller";
+import { RefCounter } from "./ref-counter";
 
 /**
  * Базовый абстрактный класс для ViewModel с управлением жизненным циклом
@@ -34,44 +34,44 @@ import { DisposableController } from "../disposable-controller";
  * ```
  */
 export abstract class ViewModel {
-    protected readonly disposableController = new DisposableController();
-    protected readonly refCounter = new RefCounter();
+	protected readonly disposableController = new DisposableController();
+	protected readonly refCounter = new RefCounter();
 
-    protected get isFirstMounted() {
-        return this.refCounter.refCount === 0;
-    }
+	protected get isFirstMounted() {
+		return this.refCounter.refCount === 0;
+	}
 
-    /**
-     * Срабатывает при монтировании компонента, увеличивая счетчик подписчиков
-     */
-    public mount() {
-        if (this.isFirstMounted) {
-            this.onMount();
-        }
-        this.refCounter.increment();
-    }
+	/**
+	 * Срабатывает при монтировании компонента, увеличивая счетчик подписчиков
+	 */
+	public mount() {
+		if (this.isFirstMounted) {
+			this.onMount();
+		}
+		this.refCounter.increment();
+	}
 
-    /**
-     * Срабатывает при размонтировании компонента, уменьшая счетчик подписчиков
-     */
-    public unmount() {
-        if (this.refCounter.decrement()) {
-            this.dispose();
-        }
-    }
+	/**
+	 * Срабатывает при размонтировании компонента, уменьшая счетчик подписчиков
+	 */
+	public unmount() {
+		if (this.refCounter.decrement()) {
+			this.dispose();
+		}
+	}
 
-    /**
-     * @override Хук для инициализации ресурсов
-     */
-    protected onMount() {}
+	/**
+	 * @override Хук для инициализации ресурсов
+	 */
+	protected onMount() {}
 
-    /**
-     * @override Хук для освобождения ресурсов
-     */
-    protected onDispose() {}
+	/**
+	 * @override Хук для освобождения ресурсов
+	 */
+	protected onDispose() {}
 
-    public dispose() {
-        this.disposableController.dispose();
-        this.onDispose();
-    }
+	public dispose() {
+		this.disposableController.dispose();
+		this.onDispose();
+	}
 }

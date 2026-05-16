@@ -1,13 +1,13 @@
 {
-  "extends": "@schedule/configs/tsconfig/base",
-  "compilerOptions": {
-    "composite": true,
-    "module": "ESNext",
-    "moduleResolution": "Bundler",
-    "target": "ES2024",
-    "noEmit": true,
-    "lib": ["ES2024"],
-    "tsBuildInfoFile": "./node_modules/.tmp/tsbuildinfo.node.tsbuildinfo"
-  },
-  "include": ["vite.config.ts"]
+	"extends": "@schedule/configs/tsconfig/base",
+	"compilerOptions": {
+		"composite": true,
+		"module": "ESNext",
+		"moduleResolution": "Bundler",
+		"target": "ES2024",
+		"noEmit": true,
+		"lib": ["ES2024"],
+		"tsBuildInfoFile": "./node_modules/.tmp/tsbuildinfo.node.tsbuildinfo"
+	},
+	"include": ["vite.config.ts"]
 }

@@ -1,22 +1,22 @@
 .base {
-    --table-border-color: var(--gray-3);
-    --table-row-divider-color: var(--gray-3);
-    --table-cell-padding: var(--space-2);
-    --table-header-background: transparent;
+	--table-border-color: var(--gray-3);
+	--table-row-divider-color: var(--gray-3);
+	--table-cell-padding: var(--space-2);
+	--table-header-background: transparent;
 
-    box-sizing: content-box;
+	box-sizing: content-box;
 
-    &.surface {
-        --table-header-background: var(--gray-3);
+	&.surface {
+		--table-header-background: var(--gray-3);
 
-        border: 1px solid var(--table-border-color);
-        border-radius: var(--radius-3);
-    }
+		border: 1px solid var(--table-border-color);
+		border-radius: var(--radius-3);
+	}
 
-    &.ghost {
-    }
+	&.ghost {
+	}
 }
 
 .table-viewport {
-    overflow-x: auto;
+	overflow-x: auto;
 }

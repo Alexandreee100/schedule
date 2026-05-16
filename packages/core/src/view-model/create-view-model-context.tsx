@@ -1,5 +1,5 @@
-import { createContext, type PropsWithChildren, useEffect } from "react";
 import { observer } from "mobx-react-lite";
+import { createContext, type PropsWithChildren, useEffect } from "react";
 import { createUseContextHook } from "../react/create-use-context-hook";
 
 // Пересечение с object, чтобы не требовать обязательную реализацию из-за weak-type
@@ -7,30 +7,30 @@ import { createUseContextHook } from "../react/create-use-context-hook";
 export type Destroyable = object & { destroy?: () => void; mount?: () => void };
 
 export const createViewModelContext = <VM extends Destroyable, Props extends object>(
-    useViewModelFactory: (props: Props) => VM,
-    contextName?: string
+	useViewModelFactory: (props: Props) => VM,
+	contextName?: string,
 ) => {
-    const Context = createContext<VM | undefined>(undefined);
+	const Context = createContext<VM | undefined>(undefined);
 
-    const Provider = observer((props: PropsWithChildren<Props>) => {
-        const vm = useViewModelFactory(props);
+	const Provider = observer((props: PropsWithChildren<Props>) => {
+		const vm = useViewModelFactory(props);
 
-        useEffect(() => {
-            vm.mount?.();
+		useEffect(() => {
+			vm.mount?.();
 
-            return () => {
-                vm.destroy?.();
-            };
-        }, [vm]);
+			return () => {
+				vm.destroy?.();
+			};
+		}, [vm]);
 
-        return <Context.Provider value={vm}>{props.children}</Context.Provider>;
-    });
+		return <Context.Provider value={vm}>{props.children}</Context.Provider>;
+	});
 
-    if (contextName) {
-        Context.displayName = contextName;
-    }
+	if (contextName) {
+		Context.displayName = contextName;
+	}
 
-    const useContextHook = createUseContextHook(Context);
+	const useContextHook = createUseContextHook(Context);
 
-    return [Provider, useContextHook] as const;
+	return [Provider, useContextHook] as const;
 };

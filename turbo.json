@@ -1,18 +1,13 @@
 {
-  "$schema": "./node_modules/turbo/schema.json",
-  "tasks": {
-    "build": {
-      "dependsOn": ["^build"],
-      "outputs": ["dist/**", "build/**"]
-    },
-    "dev": {
-      "cache": false,
-      "persistent": true
-    },
-    "schedule#dev": {
-      "dependsOn": ["@schedule/async#build"],
-      "cache": false,
-      "persistent": true
-    }
-  }
+	"$schema": "./node_modules/turbo/schema.json",
+	"tasks": {
+		"build": {
+			"dependsOn": ["^build"],
+			"outputs": ["dist/**", "build/**"]
+		},
+		"dev": {
+			"cache": false,
+			"persistent": true
+		}
+	}
 }

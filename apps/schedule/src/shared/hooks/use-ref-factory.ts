@@ -1,11 +1,11 @@
 import { useRef } from "react";
 
 export function useRefFactory<T>(factory: () => T): T {
-    const ref = useRef<T>(undefined);
+	const ref = useRef<T>(undefined);
 
-    if (!ref.current) {
-        ref.current = factory();
-    }
+	if (!ref.current) {
+		ref.current = factory();
+	}
 
-    return ref.current;
+	return ref.current;
 }

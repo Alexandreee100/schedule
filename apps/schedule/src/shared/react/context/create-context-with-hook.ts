@@ -1,22 +1,22 @@
-import { createContext, type Context } from "react";
+import { type Context, createContext } from "react";
 import { createUseContextHook } from "./create-use-context-hook";
 
 export interface CreatedContext<T> {
-    Context: Context<T | undefined>;
-    Provider: Context<T | undefined>["Provider"];
-    useContext: () => T;
+	Context: Context<T | undefined>;
+	Provider: Context<T | undefined>["Provider"];
+	useContext: () => T;
 }
 
 export const createContextWithHook = <T>(displayName?: string, errorMessage?: string): CreatedContext<T> => {
-    const Context = createContext<T | undefined>(undefined);
+	const Context = createContext<T | undefined>(undefined);
 
-    if (displayName) {
-        Context.displayName = displayName;
-    }
+	if (displayName) {
+		Context.displayName = displayName;
+	}
 
-    return {
-        Context,
-        Provider: Context.Provider,
-        useContext: createUseContextHook(Context, errorMessage),
-    };
+	return {
+		Context,
+		Provider: Context.Provider,
+		useContext: createUseContextHook(Context, errorMessage),
+	};
 };

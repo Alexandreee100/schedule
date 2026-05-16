@@ -1,20 +1,23 @@
 {
-  "version": "1.0.0",
-  "description": "",
-  "packageManager": "pnpm@10.33.2+sha512.a90faf6feeab71ad6c6e57f94e0fe1a12f5dcc22cd754db40ae9593eb6a3e0b6b12e3540218bb37ae083404b1f2ce6db2a4121e979829b4aff94b99f49da1cf8",
-  "scripts": {
-    "check:boundaries": "turbo boundaries",
-    "prepare": "git config core.hooksPath .git-hooks || echo \"There is not a git repo\"",
-    "precommit": "lint-staged",
-    "prepush": "npm run check:boundaries",
-    "build": "turbo run build"
-  },
-  "devDependencies": {
-    "@biomejs/biome": "2.4.15",
-    "eslint": "catalog:",
-    "lint-staged": "17.0.4",
-    "prettier": "3.8.3",
-    "rimraf": "6.1.3",
-    "turbo": "2.9.14"
-  }
+	"version": "1.0.0",
+	"description": "",
+	"packageManager": "pnpm@10.33.2+sha512.a90faf6feeab71ad6c6e57f94e0fe1a12f5dcc22cd754db40ae9593eb6a3e0b6b12e3540218bb37ae083404b1f2ce6db2a4121e979829b4aff94b99f49da1cf8",
+	"scripts": {
+		"boundaries:check": "turbo boundaries",
+		"prepare": "git config core.hooksPath .git-hooks || echo \"There is not a git repo\"",
+		"precommit": "lint-staged",
+		"prepush": "npm run check:boundaries",
+		"build": "turbo run build",
+    "format:fix": "biome format . --write",
+		"lint: fix": "biome lint . --write",
+		"all:fix": "biome check . --write"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "2.4.15",
+		"eslint": "catalog:",
+		"lint-staged": "17.0.4",
+		"prettier": "3.8.3",
+		"rimraf": "6.1.3",
+		"turbo": "2.9.14"
+	}
 }

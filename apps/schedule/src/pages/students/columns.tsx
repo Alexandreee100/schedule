@@ -5,33 +5,33 @@ import { TextCell } from "./cells/text-cell";
 import type { IStudentTableDTO } from "./types";
 
 interface ICreateColumnsParams {
-    onToggleStudent: (id: string) => void;
+	onToggleStudent: (id: string) => void;
 }
 
 const helper = createColumnHelper<IStudentTableDTO>();
 
 export const createColumns = ({ onToggleStudent }: ICreateColumnsParams) => {
-    return [
-        helper.display({
-            id: "checkbox",
-            cell: (ctx) => (
-                <CheckboxCell
-                    checked={ctx.row.original.isSelected}
-                    studentId={ctx.row.original.item.id}
-                    onToggle={onToggleStudent}
-                />
-            ),
-        }),
-        helper.accessor("item.name", {
-            cell: (ctx) => <TextCell value={ctx.getValue()} />,
-        }),
-        helper.accessor("item.notes", {
-            cell: (ctx) => <TextCell value={ctx.getValue()} />,
-        }),
-        helper.accessor("item.contact", {
-            cell: (ctx) => <TextCell value={ctx.getValue()} />,
+	return [
+		helper.display({
+			id: "checkbox",
+			cell: (ctx) => (
+				<CheckboxCell
+					checked={ctx.row.original.isSelected}
+					studentId={ctx.row.original.item.id}
+					onToggle={onToggleStudent}
+				/>
+			),
+		}),
+		helper.accessor("item.name", {
+			cell: (ctx) => <TextCell value={ctx.getValue()} />,
+		}),
+		helper.accessor("item.notes", {
+			cell: (ctx) => <TextCell value={ctx.getValue()} />,
+		}),
+		helper.accessor("item.contact", {
+			cell: (ctx) => <TextCell value={ctx.getValue()} />,
 
-            size: 700,
-        }),
-    ];
+			size: 700,
+		}),
+	];
 };

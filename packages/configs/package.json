@@ -1,9 +1,0 @@
-{
-  "name": "@schedule/configs",
-  "version": "1.0.0",
-  "type": "module",
-  "exports": {
-    "./tsconfig/base": "./tsconfig.base.json",
-    "./lint-staged/base": "./lint-staged/base.mjs"
-  }
-}

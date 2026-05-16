@@ -1,29 +1,29 @@
 {
-  "name": "@schedule/core",
-  "version": "1.0.0",
-  "description": "",
-  "type": "module",
-  "exports": {
-    "./*": {
-      "types": "./src/*/index.ts",
-      "default": "./src/*/index.ts"
-    }
-  },
-  "peerDependencies": {
-    "mobx": "6.12.5",
-    "mobx-react-lite": "4.1.0",
-    "react": "catalog:",
-    "react-dom": "catalog:"
-  },
-  "devDependencies": {
-    "@schedule/configs": "workspace:*",
-    "@schedule/eslint-config": "workspace:*",
-    "@types/react": "catalog:",
-    "eslint": "catalog:",
-    "mobx": "6.15.3",
-    "mobx-react-lite": "4.1.1",
-    "react": "catalog:",
-    "react-dom": "catalog:",
-    "typescript": "catalog:"
-  }
+	"name": "@schedule/core",
+	"version": "1.0.0",
+	"description": "",
+	"type": "module",
+	"exports": {
+		"./*": {
+			"types": "./src/*/index.ts",
+			"default": "./src/*/index.ts"
+		}
+	},
+	"peerDependencies": {
+		"mobx": "6.12.5",
+		"mobx-react-lite": "4.1.0",
+		"react": "catalog:",
+		"react-dom": "catalog:"
+	},
+	"devDependencies": {
+		"@schedule/configs": "workspace:*",
+		"@schedule/eslint-config": "workspace:*",
+		"@types/react": "catalog:",
+		"eslint": "catalog:",
+		"mobx": "6.15.3",
+		"mobx-react-lite": "4.1.1",
+		"react": "catalog:",
+		"react-dom": "catalog:",
+		"typescript": "catalog:"
+	}
 }
