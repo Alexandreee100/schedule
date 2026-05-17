@@ -8,6 +8,10 @@ export type ServiceId<T = unknown> = Token<T> | Constructor<T>;
 
 export type Scope = "singleton" | "transient" | "container";
 
+export interface Disposable {
+    dispose(): void;
+}
+
 export type ResolveDependency<T = unknown> = readonly [
     optional: boolean,
     id: ServiceId<T>,

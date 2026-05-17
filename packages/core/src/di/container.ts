@@ -3,6 +3,7 @@ import type { Token } from "./token";
 import type {
     AnyDependency,
     Constructor,
+    Disposable,
     IMetaClassEntry,
     MetaEntry,
     ResolveDependency,
@@ -24,8 +25,12 @@ const toTuple = <T>(dep: AnyDependency<T>): ResolveDependency<T> => {
 const isResolvable = (dep: unknown): dep is ResolveDependency =>
     Array.isArray(dep);
 
+const isDisposable = (value: unknown): value is Disposable =>
+    typeof (value as Disposable).dispose === "function";
+
 export class Container {
     private isDisposed = false;
+
     private readonly meta = new Map<ServiceId, MetaEntry>();
     private readonly instances = new Map<ServiceId, unknown>();
 
@@ -149,8 +154,15 @@ export class Container {
     }
 
     public dispose(): void {
+        for (const instance of this.instances.values()) {
+            if (isDisposable(instance)) {
+                instance.dispose();
+            }
+        }
+
         this.instances.clear();
         this.meta.clear();
+
         this.isDisposed = true;
     }
 
