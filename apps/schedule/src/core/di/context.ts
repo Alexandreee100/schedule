@@ -1,5 +1,7 @@
-import { Container } from "@freshgum/typedi";
+import { Container } from "@schedule/di";
 import { createContext } from "react";
 
-export const ContainerContext = createContext(Container);
+export const RootContainer = new Container();
+
+export const ContainerContext = createContext(RootContainer);
 export const ContainerProvider = ContainerContext.Provider;

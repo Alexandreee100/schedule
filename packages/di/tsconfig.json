@@ -1,0 +1,10 @@
+{
+  "extends": ["@schedule/configs/tsconfig/base"],
+  "compilerOptions": {
+    "verbatimModuleSyntax": true,
+    "target": "es2023",
+    "moduleResolution": "bundler",
+    "lib": ["es2023"]
+  },
+  "include": ["src"]
+}

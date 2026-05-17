@@ -1,10 +1,10 @@
-import type { ContainerInstance } from "@freshgum/typedi";
+import type { Container } from "@schedule/di";
 import type { FunctionComponent } from "react";
 import { ContainerProvider } from "../context";
 
 export function withContainer<T extends {}>(
     Component: FunctionComponent<T>,
-    container: ContainerInstance,
+    container: Container,
 ) {
     return function WithContainerComponent(props: T) {
         return (

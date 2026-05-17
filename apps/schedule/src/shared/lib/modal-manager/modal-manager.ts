@@ -1,12 +1,11 @@
-import { Service } from "@freshgum/typedi";
 import { makeAutoObservable } from "mobx";
-import type { ModalState } from "src/shared/lib/modal-manager/types";
+import { RootContainer } from "@/core/di/context";
+import type { ModalState } from "./types";
 
-@Service({ scope: "singleton" }, [])
 export class ModalManager {
     private modals = new Map<string, ModalState>();
 
-    constructor() {
+    public constructor() {
         makeAutoObservable(this, undefined, { autoBind: true });
     }
 
@@ -55,3 +54,5 @@ export class ModalManager {
         return this.modals.has(id);
     }
 }
+
+RootContainer.registerClass(ModalManager, [], "singleton");

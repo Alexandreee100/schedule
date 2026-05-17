@@ -1,7 +1,8 @@
-import { Container, type ContainerInstance } from "@freshgum/typedi";
 import { assertAndReturn } from "@schedule/core/asserts";
+import type { Container } from "@schedule/di";
 import type { FunctionComponent } from "react";
 import type { RequiredKeysOf } from "type-fest";
+import { RootContainer } from "@/core/di/context";
 import { ModalController } from "./modal-controller";
 import { ModalManager } from "./modal-manager";
 import type { ModalState } from "./types";
@@ -9,17 +10,18 @@ import { getPromiseContainer, wrapModal } from "./utils";
 
 type ShowFnProps<Props extends object> =
     RequiredKeysOf<Props> extends never ? Partial<Props> | void : Props;
-type ShowFnOptions = { scope?: ContainerInstance };
+
+type ShowFnOptions = { scope?: Container };
 
 export interface ICreateModalOptions {
     id: string;
-    scope?: ContainerInstance;
+    scope?: Container;
     closeOnOutsideClick?: boolean;
     timer?: number;
 }
 
 interface ISharedModalSettings {
-    scope?: ContainerInstance;
+    scope?: Container;
     closeOnOutsideClick?: boolean;
     timer?: number;
 }
@@ -41,7 +43,7 @@ export const createModalFactory = <Props extends object, Return = unknown>(
     }
 
     const factoryFn = (options: ISharedModalSettings = {}) => {
-        const modalManager = Container.get(ModalManager);
+        const modalManager = RootContainer.get(ModalManager);
         const {
             closeOnOutsideClick = false,
             scope,

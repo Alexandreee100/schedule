@@ -1,11 +1,11 @@
-import type { ContainerInstance } from "@freshgum/typedi";
-import type { FunctionComponent, ReactElement, ReactNode } from "react";
-import { withContainer } from "src/core/di/hoc/with-container";
-import type { PromiseContainer } from "src/shared/lib/modal-manager/types";
+import type { Container } from "@schedule/di";
+import type { FunctionComponent, ReactNode } from "react";
+import { withContainer } from "@/core/di/hoc/with-container";
+import type { PromiseContainer } from "./types";
 
 export function wrapModal<T extends object = object>(
     Component: FunctionComponent<T>,
-    scope?: ContainerInstance,
+    scope?: Container,
 ): (props: T) => ReactNode | Promise<ReactNode> {
     if (scope) {
         return withContainer(Component, scope);

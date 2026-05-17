@@ -119,7 +119,7 @@ describe("Container", () => {
         });
     });
 
-    describe("Optional dependencies", () => {
+    describe("optional dependencies", () => {
         test("returns undefined for missing optional dependency", () => {
             class WithOptional {
                 public constructor(public dep: A | undefined) {}

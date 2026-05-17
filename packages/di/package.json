@@ -1,0 +1,21 @@
+{
+  "name": "@schedule/di",
+  "version": "0.0.1",
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "default": "./src/index.ts"
+    }
+  },
+  "scripts": {
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "dependencies": {
+    "typescript": "catalog:"
+  },
+  "devDependencies": {
+    "@schedule/configs": "workspace:*",
+    "vitest": "catalog:"
+  }
+}
