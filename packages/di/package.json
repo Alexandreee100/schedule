@@ -16,6 +16,8 @@
   },
   "devDependencies": {
     "@schedule/configs": "workspace:*",
+    "@swc/core": "1.15.33",
+    "unplugin-swc": "1.5.9",
     "vitest": "catalog:"
   }
 }
