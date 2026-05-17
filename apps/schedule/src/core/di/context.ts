@@ -1,7 +1,5 @@
-import { Container } from "@schedule/di";
+import { ContainerInstance } from "@schedule/di";
 import { createContext } from "react";
 
-export const RootContainer = new Container();
-
-export const ContainerContext = createContext(RootContainer);
+export const ContainerContext = createContext(ContainerInstance);
 export const ContainerProvider = ContainerContext.Provider;

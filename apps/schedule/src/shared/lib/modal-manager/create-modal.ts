@@ -1,8 +1,7 @@
 import { assertAndReturn } from "@schedule/core/asserts";
-import type { Container } from "@schedule/di";
+import { type Container, ContainerInstance } from "@schedule/di";
 import type { FunctionComponent } from "react";
 import type { RequiredKeysOf } from "type-fest";
-import { RootContainer } from "@/core/di/context";
 import { ModalController } from "./modal-controller";
 import { ModalManager } from "./modal-manager";
 import type { ModalState } from "./types";
@@ -43,7 +42,7 @@ export const createModalFactory = <Props extends object, Return = unknown>(
     }
 
     const factoryFn = (options: ISharedModalSettings = {}) => {
-        const modalManager = RootContainer.get(ModalManager);
+        const modalManager = ContainerInstance.get(ModalManager);
         const {
             closeOnOutsideClick = false,
             scope,

@@ -1,5 +1,5 @@
+import { ContainerInstance } from "@schedule/di";
 import { makeAutoObservable } from "mobx";
-import { RootContainer } from "@/core/di/context";
 import type { ModalState } from "./types";
 
 export class ModalManager {
@@ -55,4 +55,4 @@ export class ModalManager {
     }
 }
 
-RootContainer.registerClass(ModalManager, [], "singleton");
+ContainerInstance.registerClass(ModalManager, [], "singleton");
